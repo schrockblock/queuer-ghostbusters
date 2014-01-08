@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.os.Build;
 import android.widget.Button;
 import android.widget.EditText;
+// I added this next one
+import android.content.Intent;
 
 import com.demo.queuer.R;
 import com.demo.queuer.managers.LoginManager;
@@ -28,6 +30,9 @@ public class LoginActivity extends ActionBarActivity {
         setContentView(com.ghostbusters.queuer.R.layout.activity_login);
 
         Button login = (Button)findViewById(com.ghostbusters.queuer.R.id.btn_login);
+        Button createAccount = (Button)findViewById(com.ghostbusters.queuer.R.id.btn_create_account);
+
+
         final EditText user = (EditText)findViewById(com.ghostbusters.queuer.R.id.et_username);
         final EditText pass = (EditText)findViewById(com.ghostbusters.queuer.R.id.et_password);
         login.setOnClickListener(new View.OnClickListener() {
@@ -40,6 +45,14 @@ public class LoginActivity extends ActionBarActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }
+        });
+
+        createAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            Intent i = new Intent(LoginActivity.this, CreateAccountActivity.class);
+            startActivity(i);
             }
         });
 
