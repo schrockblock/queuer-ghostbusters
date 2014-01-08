@@ -13,46 +13,37 @@ import android.view.ViewGroup;
 import android.os.Build;
 import android.widget.Button;
 import android.widget.EditText;
-// I added this next one
-import android.content.Intent;
 
+// Not sure if we are going to be using LoginManager and LoginManagerCallback
+// I don't think we are, so we will probably change this
 import com.demo.queuer.R;
 import com.demo.queuer.managers.LoginManager;
 import com.demo.queuer.managers.LoginManagerCallback;
 import com.ghostbusters.queuer.Models.LoginManager;
 
 
-public class LoginActivity extends ActionBarActivity {
-
+/**
+ * Created by blakemackall on 1/8/14.
+ */
+public class CreateAccountActivity extends ActionBarActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(com.ghostbusters.queuer.R.layout.activity_login);
+        setContentView(com.ghostbusters.queuer.R.layout.activity_create_account);
 
-        Button login = (Button)findViewById(com.ghostbusters.queuer.R.id.btn_login);
-        Button createAccount = (Button)findViewById(com.ghostbusters.queuer.R.id.btn_create_account);
+        Button createAccount = (Button)findViewById(com.ghostbusters.queuer.R.id.btn_creating_account);
+
+        // Add in text fields
+        final
 
 
-        final EditText user = (EditText)findViewById(com.ghostbusters.queuer.R.id.et_username);
-        final EditText pass = (EditText)findViewById(com.ghostbusters.queuer.R.id.et_password);
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LoginManager manager = new LoginManager();
-                //manager.setCallback(LoginActivity.this);
-                try {
-                    manager.login(user.getText().toString(), pass.getText().toString());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
+        final EditText user = (EditText)findViewById(com.ghostbusters.queuer.R.id.et_create_user);
+        final EditText pass = (EditText)findViewById(com.ghostbusters.queuer.R.id.et_create_password);
         createAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            Intent i = new Intent(LoginActivity.this, CreateAccountActivity.class);
-            startActivity(i);
+                // Again, probably want to make a new manager?
+                // Here we will make the request to make a new account
             }
         });
 
@@ -61,8 +52,9 @@ public class LoginActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        
+
         // Inflate the menu; this adds items to the action bar if it is present.
+        // Change this from login to something else?
         getMenuInflater().inflate(com.ghostbusters.queuer.R.menu.login, menu);
         return true;
     }
@@ -89,7 +81,8 @@ public class LoginActivity extends ActionBarActivity {
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
+                                 Bundle savedInstanceState) {
+            // Again, this login is probably weird. Put something else there
             View rootView = inflater.inflate(com.ghostbusters.queuer.R.layout.fragment_login, container, false);
             return rootView;
         }
