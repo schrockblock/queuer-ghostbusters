@@ -16,9 +16,9 @@ import android.widget.EditText;
 // I added this next one
 import android.content.Intent;
 
-import com.demo.queuer.R;
-import com.demo.queuer.managers.LoginManager;
-import com.demo.queuer.managers.LoginManagerCallback;
+//import com.demo.queuer.R;
+//import com.demo.queuer.managers.LoginManager;
+//import com.demo.queuer.managers.LoginManagerCallback;
 import com.ghostbusters.queuer.Models.LoginManager;
 
 
