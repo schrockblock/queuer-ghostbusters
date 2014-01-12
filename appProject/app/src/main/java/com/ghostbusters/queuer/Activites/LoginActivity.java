@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.EditText;
 // I added this next one
 import android.content.Intent;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 //import com.demo.queuer.R;
 //import com.demo.queuer.managers.LoginManager;
@@ -31,20 +33,30 @@ public class LoginActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(com.ghostbusters.queuer.R.layout.activity_login);
 
+        final ProgressBar progressbar = (ProgressBar)findViewById(com.ghostbusters.queuer.R.id.login_spinner);
+        final EditText user = (EditText)findViewById(com.ghostbusters.queuer.R.id.et_username);
+        final EditText pass = (EditText)findViewById(com.ghostbusters.queuer.R.id.et_password);
+        final TextView loading = (TextView)findViewById(R.id.login_spinner_message);
         Button login = (Button)findViewById(com.ghostbusters.queuer.R.id.btn_login);
         Button createAccount = (Button)findViewById(com.ghostbusters.queuer.R.id.btn_create_account);
 
+        progressbar.setVisibility(View.GONE);
 
-        final EditText user = (EditText)findViewById(com.ghostbusters.queuer.R.id.et_username);
-        final EditText pass = (EditText)findViewById(com.ghostbusters.queuer.R.id.et_password);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 LoginManager manager = new LoginManager();
                 //manager.setCallback(LoginActivity.this);
                 try {
+                    progressbar.setVisibility(View.VISIBLE);
+                    loading.setText("Loading");
                     manager.login(user.getText().toString(), pass.getText().toString());
+                    progressbar.setVisibility(View.GONE);
+                    loading.setText("");
                 } catch (Exception e) {
+                    loading.setText("");
+                    progressbar.setVisibility(View.GONE);
                     e.printStackTrace();
                 }
             }
