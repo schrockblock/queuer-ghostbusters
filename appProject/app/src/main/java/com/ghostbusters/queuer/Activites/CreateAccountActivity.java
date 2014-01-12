@@ -35,8 +35,8 @@ public class CreateAccountActivity extends ActionBarActivity{
 
 
 
-        final EditText user = (EditText)findViewById(R.id.et_create_username);
-        final EditText pass = (EditText)findViewById(R.id.et_create_password);
+        final EditText user = (EditText)findViewById(R.id.et_username);
+        final EditText pass = (EditText)findViewById(R.id.et_password);
         createAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,6 +72,8 @@ public class CreateAccountActivity extends ActionBarActivity{
     /**
      * A placeholder fragment containing a simple view.
      */
+
+    /*
     public static class PlaceholderFragment extends Fragment {
 
         public PlaceholderFragment() {
@@ -85,5 +87,7 @@ public class CreateAccountActivity extends ActionBarActivity{
             return rootView;
         }
     }
+
+    */
 
 }

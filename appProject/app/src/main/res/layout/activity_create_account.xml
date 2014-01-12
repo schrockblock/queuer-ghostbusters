@@ -4,32 +4,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/username"
-        android:padding="10dp"
 
-        />
-
-    <EditText
-        android:id="@+id/et_create_username"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/password"
-        android:padding="10dp"
-
-        />
-
-    <EditText
-        android:id="@+id/et_create_password"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
-
+    <include layout="@layout/login_input" />
 
     <Button
         android:id="@+id/btn_creating_account"
@@ -37,18 +13,6 @@
         android:layout_height="wrap_content"
         android:text="@string/create_account_button"/>
 
-    <ProgressBar
-        android:id="@+id/create_account_spinner"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_gravity="center"
-        />
-
-    <TextView
-        android:id="@+id/create_account_spinner_message"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_gravity="center"
-        />
+    <include layout="@layout/spinner_bar" />
 
 </LinearLayout>

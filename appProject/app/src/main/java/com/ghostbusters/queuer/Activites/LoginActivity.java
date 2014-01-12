@@ -84,6 +84,8 @@ public class LoginActivity extends ActionBarActivity {
     /**
      * A placeholder fragment containing a simple view.
      */
+
+    /*
     public static class PlaceholderFragment extends Fragment {
 
         public PlaceholderFragment() {
@@ -96,5 +98,6 @@ public class LoginActivity extends ActionBarActivity {
             return rootView;
         }
     }
+    */
 
 }
