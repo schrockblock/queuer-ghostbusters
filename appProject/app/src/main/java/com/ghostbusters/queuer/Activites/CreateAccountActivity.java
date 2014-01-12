@@ -71,7 +71,9 @@ public class CreateAccountActivity extends ActionBarActivity{
 
     /**
      * A placeholder fragment containing a simple view.
-     */
+
+
+
     public static class PlaceholderFragment extends Fragment {
 
         public PlaceholderFragment() {
@@ -85,5 +87,7 @@ public class CreateAccountActivity extends ActionBarActivity{
             return rootView;
         }
     }
+    */
+
 
 }
