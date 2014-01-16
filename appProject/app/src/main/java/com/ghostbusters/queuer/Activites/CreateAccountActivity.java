@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.os.Build;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 // Not sure if we are going to be using LoginManager and LoginManagerCallback
 // I don't think we are, so we will probably change this
@@ -34,9 +35,10 @@ public class CreateAccountActivity extends ActionBarActivity{
         // Add in text fields
 
 
-
-        final EditText user = (EditText)findViewById(R.id.et_create_username);
-        final EditText pass = (EditText)findViewById(R.id.et_create_password);
+        final ProgressBar progressbar = (ProgressBar)findViewById(R.id.login_spinner);
+        progressbar.setVisibility(View.GONE);
+        final EditText user = (EditText)findViewById(R.id.et_username);
+        final EditText pass = (EditText)findViewById(R.id.et_password);
         createAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
