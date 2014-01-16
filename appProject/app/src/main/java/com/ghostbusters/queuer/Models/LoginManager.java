@@ -1,7 +1,7 @@
 package com.ghostbusters.queuer.Models;
 
+//to test now, comment out this block of imports and comment out the authenticate method's contents. also see QueuerApplication class
 import android.app.DownloadManager;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -9,10 +9,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.ghostbusters.queuer.QueuerApplication;
+import org.json.JSONObject;
+
 
 import android.content.Context;
 
-import org.json.JSONObject;
+
 
 /**
  * Created by blakemackall on 1/8/14.
@@ -34,9 +36,11 @@ public class LoginManager {
     }
 
     private void authenticate(String username, String password){
+
         RequestQueue queue = Volley.newRequestQueue(context);
 
         SignInModel model = new SignInModel(username,password);
+
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, "http://queuer-rndapp.rhcloud.com/api/v1/session",
                 new JSONObject(new Gson().toJson(model)), new Response.Listener<JSONObject>() {
@@ -45,9 +49,18 @@ public class LoginManager {
                 //if we have successful server time:
                 //handle response -- are there errors
                if (true){
-                   authenticatedSuccessfully();
+
+                   try {
+                       authenticatedSuccessfully();
+                   } catch (Exception e) {
+                       e.printStackTrace();
+                   }
                } else {
-                   authenticatedUnsuccessfully();
+                   try {
+                       authenticatedUnsuccessfully();
+                   } catch (Exception e) {
+                       e.printStackTrace();
+                   }
                }
             }
         }, new Response.ErrorListener() {
@@ -57,6 +70,7 @@ public class LoginManager {
             }
         });
         ((QueuerApplication)context.getApplicationContext()).getRequestQueue().add(request);
+
     }
 
     private void authenticatedSuccessfully() throws Exception{

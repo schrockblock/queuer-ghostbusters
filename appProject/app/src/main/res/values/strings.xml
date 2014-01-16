@@ -10,5 +10,6 @@
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="createAccount">Create Account</string>
+    <string name="userhint">yourname@example.com</string>
 
 </resources>
