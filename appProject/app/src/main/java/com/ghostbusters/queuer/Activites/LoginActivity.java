@@ -47,7 +47,7 @@ public class LoginActivity extends ActionBarActivity {
             public void onClick(View v) {
 
                 LoginManager manager = new LoginManager();
-                //manager.setCallback(LoginActivity.this);
+                //manager.setCallback(LoginActivity.this, LoginActivity.this);
                 try {
                     progressbar.setVisibility(View.VISIBLE);
                     loading.setText("Loading");
