@@ -47,6 +47,7 @@ public class LoginActivity extends ActionBarActivity {
             public void onClick(View v) {
 
                 LoginManager manager = new LoginManager();
+                //not sure how to make this functional
                 //manager.setCallback(LoginActivity.this, LoginActivity.this);
                 try {
                     progressbar.setVisibility(View.VISIBLE);
