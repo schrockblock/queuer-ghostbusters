@@ -8,8 +8,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.ghostbusters.queuer.Constants;
 import com.ghostbusters.queuer.QueuerApplication;
+
+import org.json.JSONException;
 import org.json.JSONObject;
+import com.google.gson.Gson;
+//import com.google.gson.GsonBuilder;
 
 
 import android.content.Context;
@@ -23,6 +28,7 @@ import android.content.Context;
 public class LoginManager {
     private LoginManagerCallback callback;
     private Context context;
+
 
     public void setCallback(Context context, LoginManagerCallback callback) {
         this.callback = callback;
@@ -38,16 +44,24 @@ public class LoginManager {
     private void authenticate(String username, String password){
 
         RequestQueue queue = Volley.newRequestQueue(context);
-
+        JSONObject loginString;
         SignInModel model = new SignInModel(username,password);
 
+        try {
+            loginString = new JSONObject(new Gson().toJson(model));
+        } catch (JSONException e) {
+            //maybe make this error handling more effective
+            loginString = null;
+            e.printStackTrace();
+        }
 
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, "http://queuer-rndapp.rhcloud.com/api/v1/session",
-                new JSONObject(new Gson().toJson(model)), new Response.Listener<JSONObject>() {
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, Constants.QUEUER_SESSION_URL,
+                loginString, new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(JSONObject jsonObject) {
+            public void onResponse(JSONObject response) {
                 //if we have successful server time:
-                //handle response -- are there errors
+                //handle response -- are there errors?
                if (true){
 
                    try {
@@ -65,7 +79,7 @@ public class LoginManager {
             }
         }, new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError volleyError) {
+            public void onErrorResponse(VolleyError error) {
 
             }
         });
