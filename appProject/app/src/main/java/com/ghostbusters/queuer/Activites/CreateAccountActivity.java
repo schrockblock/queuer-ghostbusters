@@ -85,20 +85,23 @@ public class CreateAccountActivity extends ActionBarActivity implements LoginMan
     @Override
     public void startedRequest() {
         progressbar.setVisibility(View.VISIBLE);
-        loading.setText("Loading");
+        setMessage("Loading");
+    }
+
+    public void setMessage(String message){
+        loading.setText(message);
     }
 
     @Override
     public void finishedRequest(boolean successful) {
+        progressbar.setVisibility(View.GONE);
         if (successful){
-            progressbar.setVisibility(View.GONE);
-            loading.setText("");
+            setMessage("");
             Intent i = new Intent(CreateAccountActivity.this, FeedActivity.class);
             startActivity(i);
             //maybe other stuff -- LOG THEM IN
 
         } else {
-
 
         }
     }

@@ -91,16 +91,22 @@ public class LoginActivity extends ActionBarActivity implements LoginManagerCall
     @Override
     public void startedRequest() {
         progressbar.setVisibility(View.VISIBLE);
-        loading.setText("Loading");
+        setMessage("Loading");
+    }
+
+    //maybe make public so that the loginmanager can update the error message? or maybe add a parameter to finishedRequest.
+    private void setMessage(String message){
+        loading.setText(message);
     }
 
     @Override
     public void finishedRequest(boolean successful) {
+        progressbar.setVisibility(View.GONE);
         if(successful){
-            progressbar.setVisibility(View.GONE);
-            loading.setText("");
+            setMessage("");
             Intent i = new Intent(LoginActivity.this, FeedActivity.class);
             startActivity(i);
+        } else {
         }
     }
 

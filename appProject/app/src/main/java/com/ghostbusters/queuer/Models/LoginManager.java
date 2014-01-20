@@ -1,6 +1,7 @@
 package com.ghostbusters.queuer.Models;
 
 //to test now, comment out this block of imports and comment out the authenticate method's contents. also see QueuerApplication class
+
 import android.app.DownloadManager;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -8,11 +9,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+
 import com.ghostbusters.queuer.Constants;
 import com.ghostbusters.queuer.QueuerApplication;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import com.google.gson.Gson;
+
 //import com.google.gson.GsonBuilder;
 
 
@@ -49,6 +53,7 @@ public class LoginManager {
     private void create(String username, String password) {
         JSONObject createString;
         SignInModel model = new SignInModel(username,password);
+
         try {
             createString = new JSONObject(new Gson().toJson(model));
         } catch (JSONException e) {
@@ -94,6 +99,8 @@ public class LoginManager {
         //RequestQueue queue = Volley.newRequestQueue(context);
         JSONObject loginString;
         SignInModel model = new SignInModel(username,password);
+        //just a line for a test
+
 
         try {
             loginString = new JSONObject(new Gson().toJson(model));
@@ -118,6 +125,8 @@ public class LoginManager {
                    }
                } else {
                    try {
+                       //try doing curl requests with different input and see what types of errors there are
+                       JSONObject errors = (JSONObject)response.get("errors");
                        authenticatedUnsuccessfully();
                    } catch (Exception e) {
                        e.printStackTrace();
