@@ -28,4 +28,5 @@ dependencies {
     compile files('libs/gson-2.2.4.jar')
     compile files('libs/volley.jar')
     compile files('annotations.jar')
+    compile 'com.nineoldandroids:library:2.4.0'
 }

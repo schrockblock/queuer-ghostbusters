@@ -10,7 +10,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.ghostbusters.queuer.Constants;
 import com.ghostbusters.queuer.QueuerApplication;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.Gson;
@@ -41,9 +40,58 @@ public class LoginManager {
         authenticate(username, password);
     }
 
+    public void createAccount(String username, String password) throws  Exception{
+        if (callback == null) throw new Exception("Must supply a LoginManagerCallback");
+        callback.startedRequest();
+        create(username, password);
+    }
+
+    private void create(String username, String password) {
+        JSONObject createString;
+        SignInModel model = new SignInModel(username,password);
+        try {
+            createString = new JSONObject(new Gson().toJson(model));
+        } catch (JSONException e) {
+            //maybe make this error handling more effective
+            createString = null;
+            e.printStackTrace();
+        }
+
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, Constants.QUEUER_CREATE_ACCOUNT_URL,
+                createString, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                //if we have successful server time:
+                //handle response -- are there errors?
+                if (!response.has("errors")){
+                    try {
+                        authenticatedSuccessfully();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    try {
+                        authenticatedUnsuccessfully();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        ((QueuerApplication)context.getApplicationContext()).getRequestQueue().add(request);
+
+
+    }
+
     private void authenticate(String username, String password){
 
-        RequestQueue queue = Volley.newRequestQueue(context);
+        //RequestQueue queue = Volley.newRequestQueue(context);
         JSONObject loginString;
         SignInModel model = new SignInModel(username,password);
 
@@ -62,8 +110,7 @@ public class LoginManager {
             public void onResponse(JSONObject response) {
                 //if we have successful server time:
                 //handle response -- are there errors?
-               if (true){
-
+               if (!response.has("errors")){
                    try {
                        authenticatedSuccessfully();
                    } catch (Exception e) {
