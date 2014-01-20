@@ -1,5 +1,6 @@
 package com.ghostbusters.queuer.Activites;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.os.Build;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 // Not sure if we are going to be using LoginManager and LoginManagerCallback
 // I don't think we are, so we will probably change this
@@ -22,28 +24,37 @@ import android.widget.ProgressBar;
  *
  */
 
+import com.ghostbusters.queuer.Models.LoginManager;
+import com.ghostbusters.queuer.Models.LoginManagerCallback;
 import com.ghostbusters.queuer.R;
 
-public class CreateAccountActivity extends ActionBarActivity{
+public class CreateAccountActivity extends ActionBarActivity implements LoginManagerCallback{
+    final TextView loading = (TextView)findViewById(R.id.login_spinner_message);
+    final ProgressBar progressbar = (ProgressBar)findViewById(R.id.login_spinner);
+    final EditText user = (EditText)findViewById(R.id.et_username);
+    final EditText pass = (EditText)findViewById(R.id.et_password);
+    final Button createAccount = (Button)findViewById(R.id.btn_creating_account);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
-
-        Button createAccount = (Button)findViewById(R.id.btn_creating_account);
-
-        // Add in text fields
-
-
-        final ProgressBar progressbar = (ProgressBar)findViewById(R.id.login_spinner);
         progressbar.setVisibility(View.GONE);
-        final EditText user = (EditText)findViewById(R.id.et_username);
-        final EditText pass = (EditText)findViewById(R.id.et_password);
+
         createAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Again, probably want to make a new manager?
                 // Here we will make the request to make a new account
+                LoginManager manager = new LoginManager();
+                manager.setCallback(CreateAccountActivity.this, CreateAccountActivity.this);
+                try {
+                    startedRequest();
+                    manager.createAccount(user.getText().toString(), pass.getText().toString());
+                    //say in manager finishedrequest!!!
+                } catch (Exception e) {
+                    finishedRequest(false);
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -69,6 +80,30 @@ public class CreateAccountActivity extends ActionBarActivity{
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void startedRequest() {
+        progressbar.setVisibility(View.VISIBLE);
+        setMessage("Loading");
+    }
+
+    public void setMessage(String message){
+        loading.setText(message);
+    }
+
+    @Override
+    public void finishedRequest(boolean successful) {
+        progressbar.setVisibility(View.GONE);
+        if (successful){
+            setMessage("");
+            Intent i = new Intent(CreateAccountActivity.this, FeedActivity.class);
+            startActivity(i);
+            //maybe other stuff -- LOG THEM IN
+
+        } else {
+
+        }
     }
 
     /**

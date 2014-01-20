@@ -28,20 +28,18 @@ import com.ghostbusters.queuer.Models.LoginManager;
 
 public class LoginActivity extends ActionBarActivity implements LoginManagerCallback{
 
+    final ProgressBar progressbar = (ProgressBar)findViewById(com.ghostbusters.queuer.R.id.login_spinner);
+    final EditText user = (EditText)findViewById(com.ghostbusters.queuer.R.id.et_username);
+    final EditText pass = (EditText)findViewById(com.ghostbusters.queuer.R.id.et_password);
+    final TextView loading = (TextView)findViewById(R.id.login_spinner_message);
+    final Button login = (Button)findViewById(com.ghostbusters.queuer.R.id.btn_login);
+    final Button createAccount = (Button)findViewById(com.ghostbusters.queuer.R.id.btn_create_account);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(com.ghostbusters.queuer.R.layout.activity_login);
-
-        final ProgressBar progressbar = (ProgressBar)findViewById(com.ghostbusters.queuer.R.id.login_spinner);
-        final EditText user = (EditText)findViewById(com.ghostbusters.queuer.R.id.et_username);
-        final EditText pass = (EditText)findViewById(com.ghostbusters.queuer.R.id.et_password);
-        final TextView loading = (TextView)findViewById(R.id.login_spinner_message);
-        Button login = (Button)findViewById(com.ghostbusters.queuer.R.id.btn_login);
-        Button createAccount = (Button)findViewById(com.ghostbusters.queuer.R.id.btn_create_account);
-
         progressbar.setVisibility(View.GONE);
-
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,14 +47,11 @@ public class LoginActivity extends ActionBarActivity implements LoginManagerCall
                 LoginManager manager = new LoginManager();
                 manager.setCallback(LoginActivity.this, LoginActivity.this);
                 try {
-                    progressbar.setVisibility(View.VISIBLE);
-                    loading.setText("Loading");
+                    startedRequest();
                     manager.login(user.getText().toString(), pass.getText().toString());
-                    progressbar.setVisibility(View.GONE);
-                    loading.setText("");
+                    //go elsewhere to do finished request
                 } catch (Exception e) {
-                    loading.setText("");
-                    progressbar.setVisibility(View.GONE);
+                    finishedRequest(true);
                     e.printStackTrace();
                 }
             }
@@ -95,12 +90,24 @@ public class LoginActivity extends ActionBarActivity implements LoginManagerCall
 
     @Override
     public void startedRequest() {
+        progressbar.setVisibility(View.VISIBLE);
+        setMessage("Loading");
+    }
 
+    //maybe make public so that the loginmanager can update the error message? or maybe add a parameter to finishedRequest.
+    private void setMessage(String message){
+        loading.setText(message);
     }
 
     @Override
     public void finishedRequest(boolean successful) {
-
+        progressbar.setVisibility(View.GONE);
+        if(successful){
+            setMessage("");
+            Intent i = new Intent(LoginActivity.this, FeedActivity.class);
+            startActivity(i);
+        } else {
+        }
     }
 
     /**
