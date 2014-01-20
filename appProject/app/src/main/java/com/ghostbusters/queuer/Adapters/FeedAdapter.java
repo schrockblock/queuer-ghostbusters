@@ -7,7 +7,16 @@ import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.content.Context;
 import android.widget.TextView;
+import android.content.Context;
+import android.database.DataSetObserver;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ListAdapter;
+import android.widget.TextView;
 
+import com.ghostbusters.queuer.EnhancedListView.RearrangementListener;
 import com.ghostbusters.queuer.Models.Project;
 import com.ghostbusters.queuer.R;
 
@@ -23,6 +32,18 @@ public class FeedAdapter implements ListAdapter {
     public FeedAdapter(Context context, ArrayList<Project> projects) {
         this.context = context;
         this.projects = projects;
+    }
+
+    public void remove(int position) {
+        projects.remove(position);
+        //maybe implement this somewhere?
+        //notifyDataSetChanged();
+    }
+
+    public void insert(Project project, int position) {
+        projects.add(position, project);
+        //maybe implement this somewhere?
+        //notifyDataSetChanged();
     }
 
     @Override
@@ -86,5 +107,17 @@ public class FeedAdapter implements ListAdapter {
     @Override
     public boolean isEmpty() {
         return projects.isEmpty();
+    }
+
+
+    public void swapElements(int indexOne, int indexTwo) {
+        Project temp1 = projects.get(indexOne);
+        Project temp2 = projects.get(indexTwo);
+
+        projects.remove(indexOne);
+        projects.add(indexOne, temp2);
+
+        projects.remove(indexTwo);
+        projects.add(indexTwo, temp1);
     }
 }

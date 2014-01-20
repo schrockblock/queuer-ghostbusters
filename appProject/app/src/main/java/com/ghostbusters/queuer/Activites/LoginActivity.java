@@ -1,12 +1,12 @@
 package com.ghostbusters.queuer.Activites;
 
+import com.ghostbusters.queuer.Models.LoginManagerCallback;
 import com.ghostbusters.queuer.R;
 
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-//import android.support.v7.appcompat.R;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,7 +26,7 @@ import android.widget.TextView;
 import com.ghostbusters.queuer.Models.LoginManager;
 
 
-public class LoginActivity extends ActionBarActivity {
+public class LoginActivity extends ActionBarActivity implements LoginManagerCallback{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +47,7 @@ public class LoginActivity extends ActionBarActivity {
             public void onClick(View v) {
 
                 LoginManager manager = new LoginManager();
-                //not sure how to make this functional
-                //manager.setCallback(LoginActivity.this, LoginActivity.this);
+                manager.setCallback(LoginActivity.this, LoginActivity.this);
                 try {
                     progressbar.setVisibility(View.VISIBLE);
                     loading.setText("Loading");
@@ -92,6 +91,16 @@ public class LoginActivity extends ActionBarActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void startedRequest() {
+
+    }
+
+    @Override
+    public void finishedRequest(boolean successful) {
+
     }
 
     /**
