@@ -139,7 +139,7 @@ public class LoginManager {
                        authenticatedUnsuccessfully();
                    } catch (Exception e) {
                        e.printStackTrace();
-                   } 
+                   }
                }
             }
         }, new Response.ErrorListener() {

@@ -25,7 +25,7 @@ import java.util.ArrayList;
 /**
  * Created by blakemackall on 1/15/14.
  */
-public class FeedAdapter implements ListAdapter {
+public class FeedAdapter extends BaseAdapter implements ListAdapter {
     private Context context;
     private ArrayList<Project> projects = new ArrayList<Project>();
 
@@ -36,12 +36,14 @@ public class FeedAdapter implements ListAdapter {
 
     public void remove(int position) {
         projects.remove(position);
+        notifyDataSetChanged();
         //maybe implement this somewhere?
         //notifyDataSetChanged();
     }
 
     public void insert(Project project, int position) {
         projects.add(position, project);
+        notifyDataSetChanged();
         //maybe implement this somewhere?
         //notifyDataSetChanged();
     }
