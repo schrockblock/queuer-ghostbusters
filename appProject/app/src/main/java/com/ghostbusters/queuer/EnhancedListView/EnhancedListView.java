@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.ghostbusters.queuer.EnhancedListView;
 
 
@@ -68,7 +69,10 @@ import java.util.TreeSet;
  *
  * @author Tim Roes <mail@timroes.de>
  */
+
+
 public class EnhancedListView extends ListView {
+
 
     /**
      * Defines the style in which <i>undos</i> should be displayed and handled in the list.
@@ -1408,4 +1412,5 @@ public class EnhancedListView extends ListView {
         }
 
     }
+
 }

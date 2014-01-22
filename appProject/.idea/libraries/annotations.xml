@@ -4,6 +4,9 @@
       <root url="jar://$PROJECT_DIR$/app/annotations.jar!/" />
       <root url="jar://$PROJECT_DIR$/app/annotations.jar!/" />
       <root url="jar://$PROJECT_DIR$/app/annotations.jar!/" />
+      <root url="jar://$PROJECT_DIR$/app/annotations.jar!/" />
+      <root url="jar://$PROJECT_DIR$/app/annotations.jar!/" />
+      <root url="jar://$PROJECT_DIR$/app/res/libs/annotations.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
