@@ -105,6 +105,8 @@ public class LoginActivity extends ActionBarActivity implements LoginManagerCall
     @Override
     public void finishedRequest(boolean successful) {
         ((ProgressBar)findViewById(R.id.login_spinner)).setVisibility(View.GONE);
+        EditText user = (EditText)findViewById(com.ghostbusters.queuer.R.id.et_username);
+        EditText pass = (EditText)findViewById(com.ghostbusters.queuer.R.id.et_password);
         if(successful){
             setMessage("");
             Intent i = new Intent(LoginActivity.this, FeedActivity.class);

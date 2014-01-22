@@ -16,6 +16,7 @@
     <string name="item_deleted">Item deleted</string>
     <string name="n_items_deleted">%1$s items deleted</string>
     <string name="action_add_task">Add Task</string>
+    <string name="action_logout">Logout</string>
 
 
 </resources>

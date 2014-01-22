@@ -3,6 +3,8 @@ package com.ghostbusters.queuer.Activites;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -13,6 +15,7 @@ import com.ghostbusters.queuer.Models.Project;
 import com.ghostbusters.queuer.R;
 
 import java.util.ArrayList;
+import android.widget.ListView;
 
 
 /**
@@ -27,7 +30,7 @@ public class FeedActivity extends ActionBarActivity{
 
         ArrayList<Project> projects = new ArrayList<Project>(20);
         for(int i = 0; i < 20; i++) {
-            projects.add(new Project(i, "Project" + i));
+            projects.add(new Project(i, "Project " + i));
         }
 
         EnhancedListView listView = (EnhancedListView)findViewById(R.id.lv_projects);
@@ -65,6 +68,27 @@ public class FeedActivity extends ActionBarActivity{
         listView.enableSwipeToDismiss();
         listView.enableRearranging();
 
+
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.logout, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.action_logout) {
+            Intent i = new Intent(FeedActivity.this, LoginActivity.class);
+            startActivity(i);
+
+        }
+        return true;
 
     }
 
