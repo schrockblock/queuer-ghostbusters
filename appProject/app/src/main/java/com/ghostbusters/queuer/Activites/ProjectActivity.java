@@ -39,6 +39,7 @@ public class ProjectActivity extends ActionBarActivity{
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Project " + project_id);
 
+
         EnhancedListView listView = (EnhancedListView)findViewById(R.id.lv_tasks);
         adapter = new ProjectAdapter(this, tasks);
         listView.setAdapter(adapter);

@@ -10,6 +10,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+
+import com.ghostbusters.queuer.Activites.LoginActivity;
 import com.ghostbusters.queuer.Constants;
 import com.ghostbusters.queuer.QueuerApplication;
 import org.json.JSONException;
@@ -51,7 +53,10 @@ public class LoginManager {
     }
 
     private void create(String username, String password) {
+
         JSONObject createString;
+
+        //maybe have to use a createAccountModel??
         SignInModel model = new SignInModel(username,password);
 
         try {
@@ -86,7 +91,11 @@ public class LoginManager {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                try {
+                    authenticatedUnsuccessfully();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
         ((QueuerApplication)context.getApplicationContext()).getRequestQueue().add(request);
@@ -130,13 +139,17 @@ public class LoginManager {
                        authenticatedUnsuccessfully();
                    } catch (Exception e) {
                        e.printStackTrace();
-                   }
+                   } 
                }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                try {
+                    authenticatedUnsuccessfully();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
         ((QueuerApplication)context.getApplicationContext()).getRequestQueue().add(request);

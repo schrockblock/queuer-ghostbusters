@@ -29,15 +29,16 @@ import com.ghostbusters.queuer.Models.LoginManagerCallback;
 import com.ghostbusters.queuer.R;
 
 public class CreateAccountActivity extends ActionBarActivity implements LoginManagerCallback{
-    final TextView loading = (TextView)findViewById(R.id.login_spinner_message);
-    final ProgressBar progressbar = (ProgressBar)findViewById(R.id.login_spinner);
-    final EditText user = (EditText)findViewById(R.id.et_username);
-    final EditText pass = (EditText)findViewById(R.id.et_password);
-    final Button createAccount = (Button)findViewById(R.id.btn_creating_account);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
+        final ProgressBar progressbar = (ProgressBar)findViewById(R.id.login_spinner);
+        final EditText user = (EditText)findViewById(R.id.et_username);
+        final EditText pass = (EditText)findViewById(R.id.et_password);
+        final Button createAccount = (Button)findViewById(R.id.btn_creating_account);
+
         progressbar.setVisibility(View.GONE);
 
         createAccount.setOnClickListener(new View.OnClickListener() {
@@ -48,7 +49,6 @@ public class CreateAccountActivity extends ActionBarActivity implements LoginMan
                 LoginManager manager = new LoginManager();
                 manager.setCallback(CreateAccountActivity.this, CreateAccountActivity.this);
                 try {
-                    startedRequest();
                     manager.createAccount(user.getText().toString(), pass.getText().toString());
                     //say in manager finishedrequest!!!
                 } catch (Exception e) {
@@ -84,17 +84,17 @@ public class CreateAccountActivity extends ActionBarActivity implements LoginMan
 
     @Override
     public void startedRequest() {
-        progressbar.setVisibility(View.VISIBLE);
+        ((ProgressBar)findViewById(R.id.login_spinner)).setVisibility(View.VISIBLE);
         setMessage("Loading");
     }
 
     public void setMessage(String message){
-        loading.setText(message);
+        ((TextView)findViewById(R.id.login_spinner_message)).setText(message);
     }
 
     @Override
     public void finishedRequest(boolean successful) {
-        progressbar.setVisibility(View.GONE);
+        ((ProgressBar)findViewById(R.id.login_spinner)).setVisibility(View.GONE);
         if (successful){
             setMessage("");
             Intent i = new Intent(CreateAccountActivity.this, FeedActivity.class);
@@ -102,7 +102,7 @@ public class CreateAccountActivity extends ActionBarActivity implements LoginMan
             //maybe other stuff -- LOG THEM IN
 
         } else {
-
+            setMessage("Error Creating Account");
         }
     }
 

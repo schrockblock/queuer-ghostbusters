@@ -6,4 +6,5 @@ package com.ghostbusters.queuer.Models;
 public interface LoginManagerCallback {
     public void startedRequest();
     public void finishedRequest(boolean successful);
+    public void setMessage(String message);
 }
