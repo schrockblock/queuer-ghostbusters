@@ -55,7 +55,7 @@ public class FeedAdapter extends BaseAdapter implements ListAdapter {
 
     @Override
     public boolean isEnabled(int i) {
-        return false;
+        return true;
     }
 
     @Override

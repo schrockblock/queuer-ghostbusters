@@ -1,5 +1,11 @@
 package com.ghostbusters.queuer.Models;
 
+import android.content.Context;
+
+import java.util.Date;
+
+import com.ghostbusters.queuer.database.ProjectDataSource;
+
 /**
  * Created by blakemackall on 1/15/14.
  */
@@ -7,11 +13,23 @@ public class Project {
     private int id;
     private String title;
     private int color;
+    private int localId;
 
-    public Project(int id, String title) {
+    public Project() {}
+
+    public Project(Context context, int id, String title) {
         this.id = id;
         this.title = title;
+
+        ProjectDataSource projectDataSource = new ProjectDataSource(context);
+        projectDataSource.open();
+        localId = projectDataSource.createProject(title,0,id,new Date(),new Date()).localId;
+        projectDataSource.close();
     }
+
+    public int getLocalId() { return localId; }
+
+    public void setLocalId(int localId) { this.localId = localId; }
 
     public int getId() {
         return id;

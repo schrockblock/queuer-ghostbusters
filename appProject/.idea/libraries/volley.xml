@@ -7,6 +7,7 @@
       <root url="jar://$PROJECT_DIR$/app/libs/volley.jar!/" />
       <root url="jar://$PROJECT_DIR$/app/libs/volley.jar!/" />
       <root url="jar://$PROJECT_DIR$/app/res/libs/volley.jar!/" />
+      <root url="jar://$PROJECT_DIR$/app/src/main/res/libs/volley.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
