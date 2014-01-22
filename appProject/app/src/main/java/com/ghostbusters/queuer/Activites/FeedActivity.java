@@ -19,11 +19,7 @@ import java.util.ArrayList;
  * Created by blakemackall on 1/15/14.
  */
 public class FeedActivity extends ActionBarActivity{
-
     private FeedAdapter adapter;
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,9 +29,6 @@ public class FeedActivity extends ActionBarActivity{
         for(int i = 0; i < 20; i++) {
             projects.add(new Project(i, "Project" + i));
         }
-
-
-
 
         EnhancedListView listView = (EnhancedListView)findViewById(R.id.lv_projects);
         adapter = new FeedAdapter(this, projects);

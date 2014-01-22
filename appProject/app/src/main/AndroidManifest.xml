@@ -8,6 +8,8 @@
         android:minSdkVersion="10"
         android:targetSdkVersion="19" />
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".QueuerApplication"
         android:allowBackup="true"
@@ -25,6 +27,14 @@
         </activity>
         <activity
             android:name=".Activites.CreateAccountActivity"
+            android:label="@string/app_name">
+        </activity>
+        <activity
+            android:name=".Activites.FeedActivity"
+            android:label="@string/app_name">
+        </activity>
+        <activity
+            android:name=".Activites.ProjectActivity"
             android:label="@string/app_name">
         </activity>
     </application>
