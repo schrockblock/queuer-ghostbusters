@@ -93,6 +93,7 @@ public class LoginManager {
             public void onErrorResponse(VolleyError error) {
                 try {
                     authenticatedUnsuccessfully();
+                    callback.setMessage("here");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

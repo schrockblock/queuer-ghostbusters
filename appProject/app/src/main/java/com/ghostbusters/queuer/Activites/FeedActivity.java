@@ -31,26 +31,24 @@ import com.ghostbusters.queuer.database.*;
  */
 public class FeedActivity extends ActionBarActivity{
     private FeedAdapter adapter;
+    ArrayList<Project> projects;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
 
-        ArrayList<Project> projects = new ArrayList<Project>();
-        for(int i = 0; i < 5; i++) {
-            projects.add(new Project(this, i, "Project " + i));
-        }
 
 
-
-        ProjectDataSource projectDataSource = new ProjectDataSource(this);
+        final ProjectDataSource projectDataSource = new ProjectDataSource(this);
         projectDataSource.open();
         projects = projectDataSource.getAllProjects();
-        projectDataSource.close();
+        //projectDataSource.close();
 
         EnhancedListView listView = (EnhancedListView)findViewById(R.id.lv_projects);
         adapter = new FeedAdapter(this, projects);
         listView.setAdapter(adapter);
+
 
 
         //i dont understand this, ASK Professor!
@@ -59,11 +57,12 @@ public class FeedActivity extends ActionBarActivity{
             public EnhancedListView.Undoable onDismiss(EnhancedListView listView, final int position) {
                 final Project project = adapter.getItem(position);
                 adapter.remove(position);
+                projectDataSource.deleteProject(project);
                 if(adapter.isEmpty()) ((TextView)findViewById(R.id.tv_isEmptyProjectList)).setText("No Projects!");
                 return new EnhancedListView.Undoable() {
                     @Override
                     public void undo() {
-                        adapter.insert(project, position);
+                        adapter.insert(project,position);
                     }
                 };
             }
@@ -103,6 +102,7 @@ public class FeedActivity extends ActionBarActivity{
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+        final ProjectDataSource projectDataSource = new ProjectDataSource(this);
         int id = item.getItemId();
         if (id == R.id.action_logout) {
             Intent i = new Intent(FeedActivity.this, LoginActivity.class);
@@ -114,9 +114,9 @@ public class FeedActivity extends ActionBarActivity{
             // set title
             alertDialogBuilder.setTitle("New Project");
 
-            View layout = getLayoutInflater().inflate(R.layout.new_task, null);
+            View layout = getLayoutInflater().inflate(R.layout.new_project, null);
 
-            final EditText projectTitle = (EditText)layout.findViewById(R.id.project);
+            final EditText projectTitle = (EditText)layout.findViewById(R.id.projectName);
 
             // set dialog message
             alertDialogBuilder
@@ -128,8 +128,11 @@ public class FeedActivity extends ActionBarActivity{
                                 public void onClick(DialogInterface dialog, int id) {
                                     Project project = new Project();
                                     project.setTitle(projectTitle.getText().toString());
-                                    //fix this!!
-                                    project.setId(-1);
+                                    //fix this!! not really sure -- is id supposed to be more of a serialization or more of an ordering?
+                                    //like should i count deleted projects when i am incrementing the id counter?
+                                    //updateIds();
+                                    projects.add(0,project);
+                                    //adapter.insert(project,0);
                                     adapter.notifyDataSetChanged();
                                 }
                             })
