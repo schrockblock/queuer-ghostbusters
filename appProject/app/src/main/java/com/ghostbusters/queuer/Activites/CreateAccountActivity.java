@@ -85,7 +85,7 @@ public class CreateAccountActivity extends ActionBarActivity implements LoginMan
     @Override
     public void startedRequest() {
         ((ProgressBar)findViewById(R.id.login_spinner)).setVisibility(View.VISIBLE);
-        setMessage("Loading");
+        setMessage("Creating Account");
     }
 
     public void setMessage(String message){

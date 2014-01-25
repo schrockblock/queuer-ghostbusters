@@ -34,6 +34,7 @@ public class ProjectDataSource {
 
     public void open() throws SQLException {
         database = dbHelper.getWritableDatabase();
+
     }
 
     public void close() {

@@ -1,6 +1,5 @@
 package com.ghostbusters.queuer.Adapters;
 
-import android.database.DataSetObserver;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,7 +7,6 @@ import android.widget.ListAdapter;
 import android.content.Context;
 import android.widget.TextView;
 import android.content.Context;
-import android.database.DataSetObserver;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +23,7 @@ import java.util.ArrayList;
 /**
  * Created by blakemackall on 1/15/14.
  */
-public class FeedAdapter extends BaseAdapter implements ListAdapter {
+public class FeedAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<Project> projects = new ArrayList<Project>();
 
@@ -58,15 +56,7 @@ public class FeedAdapter extends BaseAdapter implements ListAdapter {
         return true;
     }
 
-    @Override
-    public void registerDataSetObserver(DataSetObserver dataSetObserver) {
 
-    }
-
-    @Override
-    public void unregisterDataSetObserver(DataSetObserver dataSetObserver) {
-
-    }
 
     @Override
     public int getCount() {
