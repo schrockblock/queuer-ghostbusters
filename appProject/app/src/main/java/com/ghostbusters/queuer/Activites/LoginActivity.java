@@ -50,7 +50,6 @@ public class LoginActivity extends ActionBarActivity implements LoginManagerCall
                 LoginManager manager = new LoginManager();
                 manager.setCallback(LoginActivity.this, LoginActivity.this);
                 try {
-                    startedRequest();
                     manager.login(user.getText().toString(), pass.getText().toString());
                     //go elsewhere to do finished request
                 } catch (Exception e) {

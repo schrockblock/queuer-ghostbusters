@@ -75,7 +75,7 @@ public class FeedAdapter extends BaseAdapter {
 
     @Override
     public boolean hasStableIds() {
-        return true;
+        return false;
     }
 
     @Override
