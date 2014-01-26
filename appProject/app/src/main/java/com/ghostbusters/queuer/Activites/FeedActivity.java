@@ -19,6 +19,7 @@ import com.ghostbusters.queuer.R;
 
 import java.util.ArrayList;
 
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -44,6 +45,8 @@ public class FeedActivity extends ActionBarActivity{
         projectDataSource.open();
         projects = projectDataSource.getAllProjects();
         //projectDataSource.close();
+
+
 
         EnhancedListView listView = (EnhancedListView)findViewById(R.id.lv_projects);
         adapter = new FeedAdapter(this, projects);
@@ -84,6 +87,7 @@ public class FeedActivity extends ActionBarActivity{
         listView.enableSwipeToDismiss();
         listView.enableRearranging();
         if(adapter.isEmpty()) ((TextView)findViewById(R.id.tv_isEmptyProjectList)).setText("No Projects!");
+        else ((TextView)findViewById(R.id.tv_isEmptyProjectList)).setText("");
 
 
     }
@@ -102,7 +106,10 @@ public class FeedActivity extends ActionBarActivity{
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        final ProjectDataSource projectDataSource = new ProjectDataSource(this);
+
+        //could be the problem
+        //final ProjectDataSource projectDataSource = new ProjectDataSource(this);
+
         int id = item.getItemId();
         if (id == R.id.action_logout) {
             Intent i = new Intent(FeedActivity.this, LoginActivity.class);
@@ -118,6 +125,38 @@ public class FeedActivity extends ActionBarActivity{
 
             final EditText projectTitle = (EditText)layout.findViewById(R.id.projectName);
 
+            final Button bRed = (Button)findViewById(R.id.btn_red);
+            final Button bBlue = (Button)findViewById(R.id.btn_blue);
+            final Button bYellow = (Button)findViewById(R.id.btn_yellow);
+            final Button bGreen = (Button)findViewById(R.id.btn_green);
+            final Button bOrange = (Button)findViewById(R.id.btn_orange);
+            final Button bPlum = (Button)findViewById(R.id.btn_plum);
+            final Button bTurq = (Button)findViewById(R.id.btn_turquoise);
+
+            final int[] projectColor = {-1};
+/*
+            bRed.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    projectColor[0] = bRed.getHighlightColor();
+                }
+            });
+
+            bYellow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    projectColor[0] = bYellow.getHighlightColor();
+                    projectTitle.setText("WORKS");
+                }
+            });
+
+            bGreen.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    projectColor[0] = bGreen.getHighlightColor();
+                }
+            });
+*/
             // set dialog message
             alertDialogBuilder
                     //.setMessage(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)))
@@ -128,16 +167,20 @@ public class FeedActivity extends ActionBarActivity{
                                 public void onClick(DialogInterface dialog, int id) {
                                     Project project = new Project();
                                     project.setTitle(projectTitle.getText().toString());
+                                    //project.setColor(projectColor[0]);
                                     //fix this!! not really sure -- is id supposed to be more of a serialization or more of an ordering?
                                     //like should i count deleted projects when i am incrementing the id counter?
                                     //updateIds();
-                                    projects.add(0,project);
+                                    projects.add(0, project);
+                                    //projectDataSource.createProject(project.getTitle(),project.getColor(),0,null,null);
+                                    ((TextView) findViewById(R.id.tv_isEmptyProjectList)).setText("");
                                     //adapter.insert(project,0);
                                     adapter.notifyDataSetChanged();
                                 }
                             })
                     .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog,int id) {}
+                        public void onClick(DialogInterface dialog, int id) {
+                        }
                     });
             AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.show();
