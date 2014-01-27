@@ -98,6 +98,29 @@ public class TaskDataSource {
         return tasks;
     }
 
+    public ArrayList getAllTasksForProject(int project_id){
+        ArrayList<Task> tasks = new ArrayList<Task>();
+
+        Cursor cursor = database.query(TaskOpenHelper.TABLE_TASKS, null,
+                TaskOpenHelper.COLUMN_PROJECT_SERVER_ID + " = " + project_id, null,
+                null, null, null);
+
+        if (cursor.moveToFirst()){
+            tasks.add(cursorToTask(cursor));
+
+            while (cursor.moveToNext()){
+                tasks.add(cursorToTask(cursor));
+            }
+        }
+
+        cursor.close();
+
+        return tasks;
+    }
+
+
+
+
     private Task cursorToTask(Cursor cursor) {
         Task task = new Task();
         task.setId(cursor.getInt(cursor.getColumnIndex(TaskOpenHelper.COLUMN_SERVER_ID)));

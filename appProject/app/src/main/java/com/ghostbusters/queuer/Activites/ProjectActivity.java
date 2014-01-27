@@ -1,5 +1,6 @@
 package com.ghostbusters.queuer.Activites;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
@@ -12,6 +13,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.ghostbusters.queuer.R;
 import com.ghostbusters.queuer.Adapters.FeedAdapter;
@@ -19,6 +22,8 @@ import com.ghostbusters.queuer.Adapters.ProjectAdapter;
 import com.ghostbusters.queuer.Models.Task;
 import com.ghostbusters.queuer.Models.Project;
 import com.ghostbusters.queuer.EnhancedListView.EnhancedListView;
+import com.ghostbusters.queuer.database.TaskDataSource;
+import com.ghostbusters.queuer.database.TaskOpenHelper;
 
 import java.util.ArrayList;
 
@@ -27,40 +32,69 @@ import java.util.ArrayList;
  */
 public class ProjectActivity extends ActionBarActivity{
     private int project_id;
-    private ArrayList<Task> tasks = new ArrayList<Task>();
+    private ArrayList<Task> tasks;
     private ProjectAdapter adapter;
+    TaskDataSource taskDataSource;
+    private int project_color;
 
     @Override
     protected  void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_project);
 
         project_id = getIntent().getIntExtra("project_id", -1);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Project " + project_id);
 
+        project_color = getIntent().getIntExtra("project_color", -1);
+
+
+        taskDataSource = new TaskDataSource(this);
+        taskDataSource.open();
+        tasks = taskDataSource.getAllTasksForProject(project_id);
+        taskDataSource.close();
+
+
+
 
         EnhancedListView listView = (EnhancedListView)findViewById(R.id.lv_tasks);
         adapter = new ProjectAdapter(this, tasks);
         listView.setAdapter(adapter);
 
-        //also dont understand this, ASK
-        listView.setDismissCallback(new EnhancedListView.OnDismissCallback() {
-            @Override
-            public EnhancedListView.Undoable onDismiss(EnhancedListView listView, final int position) {
-                final Task task = adapter.getItem(position);
-                adapter.remove(position);
-                return new EnhancedListView.Undoable() {
+        //listView.setBackgroundColor(12409);
+
+        //LinearLayout layout = (LinearLayout)findViewById(R.layout.activity_project);
+        //layout.setBackgroundColor(project_color);
+
+                //also dont understand this, ASK
+                listView.setDismissCallback(new EnhancedListView.OnDismissCallback() {
                     @Override
-                    public void undo() {
-                        adapter.insert(task, position);
+                    public EnhancedListView.Undoable onDismiss(EnhancedListView listView, final int position) {
+                        final Task task = adapter.getItem(position);
+                        adapter.remove(position);
+                        taskDataSource.open();
+                        taskDataSource.deleteTask(task);
+                        taskDataSource.close();
+                        if (adapter.isEmpty())
+                            ((TextView) findViewById(R.id.tv_isEmptyTaskList)).setVisibility(View.VISIBLE);
+                        return new EnhancedListView.Undoable() {
+                            @Override
+                            public void undo() {
+                                adapter.insert(task, position);
+                                taskDataSource.open();
+                                taskDataSource.createTask(task.getName(), task.getLocalId(), task.getProject_id(), task.getPosition(), task.isFinished());
+                                taskDataSource.close();
+                                ((TextView) findViewById(R.id.tv_isEmptyTaskList)).setVisibility(View.GONE);
+                            }
+                        };
                     }
-                };
-            }
-        });
+                });
 
         listView.enableSwipeToDismiss();
         listView.enableRearranging();
+        if(adapter.isEmpty()) ((TextView)findViewById(R.id.tv_isEmptyTaskList)).setVisibility(View.VISIBLE);
+        else ((TextView)findViewById(R.id.tv_isEmptyTaskList)).setVisibility(View.GONE);
     }
 
 
@@ -99,7 +133,11 @@ public class ProjectActivity extends ActionBarActivity{
                                     task.setName(taskTitle.getText().toString());
                                     task.setProject_id(project_id);
                                     tasks.add(0, task);
+                                    taskDataSource.open();
+                                    taskDataSource.createTask(task.getName(),task.getLocalId(),task.getProject_id(),task.getPosition(),task.isFinished());
+                                    taskDataSource.close();
                                     adapter.notifyDataSetChanged();
+                                    ((TextView)findViewById(R.id.tv_isEmptyTaskList)).setVisibility(View.GONE);
                                 }
                             })
                     .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

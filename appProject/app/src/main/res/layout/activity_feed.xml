@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:text=""
+        android:text="@string/no_projects"
         android:id="@+id/tv_isEmptyProjectList"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content" />

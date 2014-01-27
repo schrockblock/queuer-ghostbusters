@@ -4,6 +4,12 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:text="@string/no_tasks"
+        android:id="@+id/tv_isEmptyTaskList "
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content" />
+
     <com.ghostbusters.queuer.EnhancedListView.EnhancedListView
         android:id="@+id/lv_tasks"
         android:layout_width="fill_parent"
