@@ -83,11 +83,17 @@ public class FeedActivity extends ActionBarActivity{
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                /*
+                ((TextView)findViewById(R.id.tv_isEmptyProjectList)).setVisibility(View.VISIBLE);
+                ((TextView)findViewById(R.id.tv_isEmptyProjectList)).setText(""+adapter.getItemId(position));
+                */
                 Intent intent = new Intent(FeedActivity.this, ProjectActivity.class);
                 intent.putExtra("project_name", adapter.getItem(position).getTitle());
-                intent.putExtra("project_id", adapter.getItemId(position));
+                intent.putExtra("project_id", (int)adapter.getItem(position).getLocalId());
                 intent.putExtra("project_color", adapter.getItem(position).getColor());
+
                 startActivity(intent);
+
             }
         });
 
