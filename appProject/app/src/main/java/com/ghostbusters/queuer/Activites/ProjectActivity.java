@@ -36,6 +36,7 @@ public class ProjectActivity extends ActionBarActivity{
     private ProjectAdapter adapter;
     TaskDataSource taskDataSource;
     private int project_color;
+    private String project_name;
 
     @Override
     protected  void onCreate(Bundle savedInstanceState){
@@ -44,8 +45,12 @@ public class ProjectActivity extends ActionBarActivity{
         setContentView(R.layout.activity_project);
 
         project_id = getIntent().getIntExtra("project_id", -1);
+
+        project_name = getIntent().getStringExtra("project_name");
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Project " + project_id);
+        actionBar.setTitle(project_name);
+
+
 
         project_color = getIntent().getIntExtra("project_color", -1);
 
@@ -55,17 +60,14 @@ public class ProjectActivity extends ActionBarActivity{
         tasks = taskDataSource.getAllTasksForProject(project_id);
         taskDataSource.close();
 
-
-
-
         EnhancedListView listView = (EnhancedListView)findViewById(R.id.lv_tasks);
         adapter = new ProjectAdapter(this, tasks);
         listView.setAdapter(adapter);
 
         //listView.setBackgroundColor(12409);
 
-        //LinearLayout layout = (LinearLayout)findViewById(R.layout.activity_project);
-        //layout.setBackgroundColor(project_color);
+        LinearLayout layout = (LinearLayout)findViewById(R.id.project_screen);
+        layout.setBackgroundColor(project_color);
 
                 //also dont understand this, ASK
                 listView.setDismissCallback(new EnhancedListView.OnDismissCallback() {
@@ -83,6 +85,7 @@ public class ProjectActivity extends ActionBarActivity{
                             public void undo() {
                                 adapter.insert(task, position);
                                 taskDataSource.open();
+                                //might h
                                 taskDataSource.createTask(task.getName(), task.getLocalId(), task.getProject_id(), task.getPosition(), task.isFinished());
                                 taskDataSource.close();
                                 ((TextView) findViewById(R.id.tv_isEmptyTaskList)).setVisibility(View.GONE);
