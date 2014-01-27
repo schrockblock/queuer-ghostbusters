@@ -23,7 +23,7 @@ import java.util.ArrayList;
 /**
  * Created by blakemackall on 1/15/14.
  */
-public class FeedAdapter extends BaseAdapter {
+public class FeedAdapter extends BaseAdapter implements RearrangementListener {
     private Context context;
     private ArrayList<Project> projects = new ArrayList<Project>();
 
@@ -35,15 +35,11 @@ public class FeedAdapter extends BaseAdapter {
     public void remove(int position) {
         projects.remove(position);
         notifyDataSetChanged();
-        //maybe implement this somewhere?
-        //notifyDataSetChanged();
     }
 
     public void insert(Project project, int position) {
         projects.add(position, project);
         notifyDataSetChanged();
-        //maybe implement this somewhere?
-        //notifyDataSetChanged();
     }
 
     @Override
@@ -102,6 +98,11 @@ public class FeedAdapter extends BaseAdapter {
     }
 
 
+    @Override
+    public void onStartedRearranging() {
+
+    }
+
     public void swapElements(int indexOne, int indexTwo) {
         Project temp1 = projects.get(indexOne);
         Project temp2 = projects.get(indexTwo);
@@ -111,5 +112,10 @@ public class FeedAdapter extends BaseAdapter {
 
         projects.remove(indexTwo);
         projects.add(indexTwo, temp1);
+    }
+
+    @Override
+    public void onFinishedRearranging() {
+
     }
 }
