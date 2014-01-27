@@ -31,7 +31,7 @@ import java.util.ArrayList;
  * Created by blakemackall on 1/17/14.
  */
 public class ProjectActivity extends ActionBarActivity{
-    private int project_id;
+    private int projects_id;
     private ArrayList<Task> tasks;
     private ProjectAdapter adapter;
     TaskDataSource taskDataSource;
@@ -44,12 +44,11 @@ public class ProjectActivity extends ActionBarActivity{
 
         setContentView(R.layout.activity_project);
 
-        project_id = getIntent().getIntExtra("project_id", -1);
+        projects_id = getIntent().getIntExtra("project_id", -1);
 
         project_name = getIntent().getStringExtra("project_name");
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(project_name);
-
 
 
         project_color = getIntent().getIntExtra("project_color", -1);
@@ -57,7 +56,7 @@ public class ProjectActivity extends ActionBarActivity{
 
         taskDataSource = new TaskDataSource(this);
         taskDataSource.open();
-        tasks = taskDataSource.getAllTasksForProject(project_id);
+        tasks = taskDataSource.getAllTasksForProject(projects_id);
         taskDataSource.close();
 
         EnhancedListView listView = (EnhancedListView)findViewById(R.id.lv_tasks);
@@ -85,7 +84,6 @@ public class ProjectActivity extends ActionBarActivity{
                             public void undo() {
                                 adapter.insert(task, position);
                                 taskDataSource.open();
-                                //might h
                                 taskDataSource.createTask(task.getName(), task.getLocalId(), task.getProject_id(), task.getPosition(), task.isFinished());
                                 taskDataSource.close();
                                 ((TextView) findViewById(R.id.tv_isEmptyTaskList)).setVisibility(View.GONE);
@@ -132,13 +130,10 @@ public class ProjectActivity extends ActionBarActivity{
                     .setPositiveButton("Ok",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    Task task = new Task();
-                                    task.setName(taskTitle.getText().toString());
-                                    task.setProject_id(project_id);
-                                    tasks.add(0, task);
                                     taskDataSource.open();
-                                    taskDataSource.createTask(task.getName(),task.getLocalId(),task.getProject_id(),task.getPosition(),task.isFinished());
+                                    Task task = taskDataSource.createTask(taskTitle.getText().toString(),projects_id,0,0,false);
                                     taskDataSource.close();
+                                    adapter.insert(task,0);
                                     adapter.notifyDataSetChanged();
                                     ((TextView)findViewById(R.id.tv_isEmptyTaskList)).setVisibility(View.GONE);
                                 }
