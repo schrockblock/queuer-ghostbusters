@@ -84,7 +84,8 @@ public class FeedActivity extends ActionBarActivity{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(FeedActivity.this, ProjectActivity.class);
-                intent.putExtra("project_id", (int)adapter.getItemId(position));
+                intent.putExtra("project_name", adapter.getItem(position).getTitle());
+                intent.putExtra("project_id", adapter.getItemId(position));
                 intent.putExtra("project_color", adapter.getItem(position).getColor());
                 startActivity(intent);
             }
@@ -141,54 +142,54 @@ public class FeedActivity extends ActionBarActivity{
             final Button bPlum = (Button)layout.findViewById(R.id.btn_plum);
             final Button bTurq = (Button)layout.findViewById(R.id.btn_turquoise);
 
-            final int[] projectColor = {-1};
+            final int[] projectColor = {getResources().getColor(R.color.White)};
 
             bRed.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    projectColor[0] = getResources().getColor(R.color.red);
+                    projectColor[0] = getResources().getColor(R.color.Red);
                 }
             });
 
             bYellow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    projectColor[0] = bYellow.getHighlightColor();
+                    projectColor[0] = getResources().getColor(R.color.Yellow);
                 }
             });
 
             bGreen.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    projectColor[0] = bGreen.getHighlightColor();
+                    projectColor[0] = getResources().getColor(R.color.Green);
                 }
             });
 
             bOrange.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    projectColor[0] = bOrange.getHighlightColor();
+                    projectColor[0] = getResources().getColor(R.color.Orange);
                 }
             });
 
             bBlue.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    projectColor[0] = bBlue.getHighlightColor();
+                    projectColor[0] = getResources().getColor(R.color.Blue);
                 }
             });
 
             bPlum.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    projectColor[0] = bPlum.getHighlightColor();
+                    projectColor[0] = getResources().getColor(R.color.Plum);
                 }
             });
 
             bTurq.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    projectColor[0] = bTurq.getHighlightColor();
+                    projectColor[0] = getResources().getColor(R.color.Turquoise);
                 }
             });
 
@@ -201,18 +202,11 @@ public class FeedActivity extends ActionBarActivity{
                     .setPositiveButton("Ok",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    Project project = new Project();
-                                    project.setTitle(projectTitle.getText().toString());
-                                    project.setColor(projectColor[0]);
-                                    //fix this!! not really sure -- is id supposed to be more of a serialization or more of an ordering?
-                                    //like should i count deleted projects when i am incrementing the id counter?
-                                    //updateIds();
-                                    adapter.insert(project, 0);
                                     projectDataSource.open();
-                                    projectDataSource.createProject(project.getTitle(), project.getColor(), 0, new Date(), new Date());
+                                    Project project = projectDataSource.createProject(projectTitle.getText().toString(), projectColor[0], 0, new Date(), new Date());
                                     projectDataSource.close();
+                                    adapter.insert(project, 0);
                                     ((TextView) findViewById(R.id.tv_isEmptyProjectList)).setVisibility(View.GONE);
-                                    //adapter.insert(project,0);
                                     adapter.notifyDataSetChanged();
                                 }
                             })
