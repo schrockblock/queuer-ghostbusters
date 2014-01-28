@@ -72,7 +72,7 @@ public class FeedAdapter extends BaseAdapter implements RearrangementListener{
 
     @Override
     public long getItemId(int position) {
-        return getItem(position).getId();
+        return getItem(position).getLocalId();
     }
 
     @Override

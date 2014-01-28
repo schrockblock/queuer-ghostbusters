@@ -20,5 +20,6 @@
     <string name="action_add_project">Add Project</string>
     <string name="no_projects">No projects!</string>
     <string name="no_tasks">No tasks!</string>
+    <string name="action_edit_project">Edit project</string>
 
 </resources>
