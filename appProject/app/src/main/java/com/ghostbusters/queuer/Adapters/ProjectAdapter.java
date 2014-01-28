@@ -91,7 +91,7 @@ public class ProjectAdapter extends BaseAdapter implements  RearrangementListene
 
     @Override
     public void onFinishedRearranging() {
-
+        notifyDataSetChanged();
     }
 
 
