@@ -4,6 +4,7 @@ import android.content.Context;
 
 import java.util.Date;
 
+import com.ghostbusters.queuer.Activites.ProjectActivity;
 import com.ghostbusters.queuer.database.ProjectDataSource;
 
 /**
@@ -53,5 +54,13 @@ public class Project {
 
     public void setColor(int color) {
         this.color = color;
+    }
+
+    static public Project getProject(Context context,int LocalId){
+        ProjectDataSource projectDataSource = new ProjectDataSource(context);
+        projectDataSource.open();
+        Project newProject = projectDataSource.getProject(LocalId);
+        projectDataSource.close();
+        return newProject;
     }
 }
