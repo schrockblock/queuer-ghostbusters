@@ -98,6 +98,16 @@ public class ProjectDataSource {
         return projects;
     }
 
+    public Project getProject(int LocalId){
+        Cursor cursor = database.query(ProjectOpenHelper.TABLE_PROJECTS,
+                allColumns,ProjectOpenHelper.COLUMN_ID + " = " + LocalId, null, null, null, null);
+        cursor.moveToFirst();
+        Project newProject = cursorToProject(cursor);
+        cursor.close();
+        return newProject;
+
+    }
+
     private Project cursorToProject(Cursor cursor) {
         Project project = new Project();
         project.setLocalId(cursor.getInt(cursor.getColumnIndex(ProjectOpenHelper.COLUMN_ID)));
