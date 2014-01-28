@@ -122,6 +122,6 @@ public class FeedAdapter extends BaseAdapter implements RearrangementListener{
 
     @Override
     public void onFinishedRearranging() {
-
+        notifyDataSetChanged();
     }
 }
