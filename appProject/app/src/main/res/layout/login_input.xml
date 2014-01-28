@@ -1,0 +1,29 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/username"
+        android:padding="10dp"/>
+
+    <EditText
+        android:hint="@string/userhint"
+        android:id="@+id/et_username"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/password"
+        android:padding="10dp" />
+
+    <EditText
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:id="@+id/et_password"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+
+</merge>
