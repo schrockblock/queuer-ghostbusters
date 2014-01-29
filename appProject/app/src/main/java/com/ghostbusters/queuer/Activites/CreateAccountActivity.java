@@ -26,10 +26,11 @@ import android.widget.TextView;
 
 import com.ghostbusters.queuer.Models.LoginManager;
 import com.ghostbusters.queuer.Models.LoginManagerCallback;
+import com.ghostbusters.queuer.Models.SignInModel;
 import com.ghostbusters.queuer.R;
 
 public class CreateAccountActivity extends ActionBarActivity implements LoginManagerCallback{
-
+    private SignInModel thisUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,6 +106,7 @@ public class CreateAccountActivity extends ActionBarActivity implements LoginMan
             setMessage("Error Creating Account");
         }
     }
+
 
     /**
      * A placeholder fragment containing a simple view.

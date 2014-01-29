@@ -57,7 +57,9 @@ public class LoginManager {
         JSONObject createString;
 
         //maybe have to use a createAccountModel??
-        SignInModel model = new SignInModel(username,password);
+        SignInModel.getInstance().setUsername(username);
+        SignInModel.getInstance().setPassword(password);
+        SignInModel model = SignInModel.getInstance();
 
         try {
             createString = new JSONObject(new Gson().toJson(model));
@@ -75,6 +77,8 @@ public class LoginManager {
                 //if we have successful server time:
                 //handle response -- are there errors?
                 if (!response.has("errors")){
+                    Gson gson = new Gson();
+                    SignInModel thisUser = gson.fromJson(response.toString(),SignInModel.class);
                     try {
                         authenticatedSuccessfully();
                     } catch (Exception e) {
@@ -108,9 +112,10 @@ public class LoginManager {
 
         //RequestQueue queue = Volley.newRequestQueue(context);
         JSONObject loginString;
-        SignInModel model = new SignInModel(username,password);
+        SignInModel.getInstance().setUsername(username);
+        SignInModel.getInstance().setPassword(password);
+        SignInModel model = SignInModel.getInstance();
         //just a line for a test
-
 
         try {
             loginString = new JSONObject(new Gson().toJson(model));
@@ -128,6 +133,8 @@ public class LoginManager {
                 //if we have successful server time:
                 //handle response -- are there errors?
                if (!response.has("errors")){
+                   Gson gson = new Gson();
+                   SignInModel thisUser = gson.fromJson(response.toString(),SignInModel.class);
                    try {
                        authenticatedSuccessfully();
                    } catch (Exception e) {
