@@ -11,10 +11,17 @@ import android.view.View;
 import android.widget.AdapterView;
 
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.ghostbusters.queuer.Adapters.FeedAdapter;
+import com.ghostbusters.queuer.Constants;
 import com.ghostbusters.queuer.EnhancedListView.EnhancedListView;
 import com.ghostbusters.queuer.Models.Project;
+import com.ghostbusters.queuer.Models.SignInModel;
 import com.ghostbusters.queuer.Models.Task;
+import com.ghostbusters.queuer.QueuerApplication;
 import com.ghostbusters.queuer.R;
 
 import java.util.ArrayList;
@@ -26,6 +33,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ghostbusters.queuer.database.*;
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 /**
@@ -35,6 +46,12 @@ public class FeedActivity extends ActionBarActivity{
     private FeedAdapter adapter;
     ArrayList<Project> projects;
     ProjectDataSource projectDataSource;
+    private String api_key;
+    private String id;
+    private String username;
+    private String password;
+    private String getFromSessionURL;
+    private SignInModel thisUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +59,65 @@ public class FeedActivity extends ActionBarActivity{
         setContentView(R.layout.activity_feed);
 
 
-
+        //local retrieving
         projectDataSource = new ProjectDataSource(this);
         projectDataSource.open();
         projects = projectDataSource.getAllProjects();
         projectDataSource.close();
+/*
+        //server retrieving
+        api_key = SignInModel.getInstance().getApi_key();
+        username = SignInModel.getInstance().getUsername();
+        password = SignInModel.getInstance().getPassword();
+        id = SignInModel.getInstance().getId();
+
+        getFromSessionURL = Constants.QUEUER_CREATE_ACCOUNT_URL + "/" + thisUser.getId() + "/projects";
+
+        JSONObject loginString;
+
+        try {
+            loginString = new JSONObject(new Gson().toJson(SignInModel.getInstance()));
+        } catch (JSONException e) {
+            //maybe make this error handling more effective
+            loginString = null;
+            e.printStackTrace();
+        }
+
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, getFromSessionURL,
+                loginString, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                //if we have successful server time:
+                //handle response -- are there errors?
+                if (!response.has("errors")){
+
+                    try {
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    try {
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                try {
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        ((QueuerApplication)FeedActivity.this.getApplicationContext()).getRequestQueue().add(request);
+
+*/
 
 
 
@@ -88,9 +159,12 @@ public class FeedActivity extends ActionBarActivity{
                 ((TextView)findViewById(R.id.tv_isEmptyProjectList)).setText(""+adapter.getItemId(position));
                 */
                 Intent intent = new Intent(FeedActivity.this, ProjectActivity.class);
+
+                //maybe comment these out?
                 intent.putExtra("project_name", adapter.getItem(position).getTitle());
-                intent.putExtra("project_id", (int)adapter.getItem(position).getLocalId());
                 intent.putExtra("project_color", adapter.getItem(position).getColor());
+
+                intent.putExtra("project_id", (int)adapter.getItem(position).getLocalId());
 
                 startActivity(intent);
 
@@ -106,6 +180,7 @@ public class FeedActivity extends ActionBarActivity{
 
 
     }
+
 
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -145,15 +220,19 @@ public class FeedActivity extends ActionBarActivity{
             final Button bYellow = (Button)layout.findViewById(R.id.btn_yellow);
             final Button bGreen = (Button)layout.findViewById(R.id.btn_green);
             final Button bOrange = (Button)layout.findViewById(R.id.btn_orange);
-            final Button bPlum = (Button)layout.findViewById(R.id.btn_plum);
+            final Button bWhite = (Button)layout.findViewById(R.id.btn_plum);
             final Button bTurq = (Button)layout.findViewById(R.id.btn_turquoise);
 
             final int[] projectColor = {getResources().getColor(R.color.White)};
+
+            final View colorSwatch = (View)layout.findViewById(R.id.color_swatch);
+            colorSwatch.setBackgroundColor(getResources().getColor(R.color.White));
 
             bRed.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     projectColor[0] = getResources().getColor(R.color.Red);
+                    colorSwatch.setBackgroundColor(getResources().getColor(R.color.Red));
                 }
             });
 
@@ -161,6 +240,7 @@ public class FeedActivity extends ActionBarActivity{
                 @Override
                 public void onClick(View view) {
                     projectColor[0] = getResources().getColor(R.color.Yellow);
+                    colorSwatch.setBackgroundColor(getResources().getColor(R.color.Yellow));
                 }
             });
 
@@ -168,6 +248,7 @@ public class FeedActivity extends ActionBarActivity{
                 @Override
                 public void onClick(View view) {
                     projectColor[0] = getResources().getColor(R.color.Green);
+                    colorSwatch.setBackgroundColor(getResources().getColor(R.color.Green));
                 }
             });
 
@@ -175,6 +256,7 @@ public class FeedActivity extends ActionBarActivity{
                 @Override
                 public void onClick(View view) {
                     projectColor[0] = getResources().getColor(R.color.Orange);
+                    colorSwatch.setBackgroundColor(getResources().getColor(R.color.Orange));
                 }
             });
 
@@ -182,13 +264,15 @@ public class FeedActivity extends ActionBarActivity{
                 @Override
                 public void onClick(View view) {
                     projectColor[0] = getResources().getColor(R.color.Blue);
+                    colorSwatch.setBackgroundColor(getResources().getColor(R.color.Blue));
                 }
             });
 
-            bPlum.setOnClickListener(new View.OnClickListener() {
+            bWhite.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    projectColor[0] = getResources().getColor(R.color.Plum);
+                    projectColor[0] = getResources().getColor(R.color.White);
+                    colorSwatch.setBackgroundColor(getResources().getColor(R.color.White));
                 }
             });
 
@@ -196,6 +280,7 @@ public class FeedActivity extends ActionBarActivity{
                 @Override
                 public void onClick(View view) {
                     projectColor[0] = getResources().getColor(R.color.Turquoise);
+                    colorSwatch.setBackgroundColor(getResources().getColor(R.color.Turquoise));
                 }
             });
 

@@ -5,7 +5,7 @@
 
     <View
         android:id="@+id/color_swatch"
-        android:background="@color/Goldenrod"
+        android:background="@color/White"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginLeft="5dp"
@@ -70,7 +70,7 @@
 
     <Button
         android:id="@+id/btn_plum"
-        android:background="@color/Plum"
+        android:background="@color/White"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginLeft="10dp"

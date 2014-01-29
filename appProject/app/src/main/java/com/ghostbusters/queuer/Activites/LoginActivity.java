@@ -1,6 +1,7 @@
 package com.ghostbusters.queuer.Activites;
 
 import com.ghostbusters.queuer.Models.LoginManagerCallback;
+import com.ghostbusters.queuer.Models.SignInModel;
 import com.ghostbusters.queuer.R;
 
 import android.support.v7.app.ActionBarActivity;
@@ -27,6 +28,7 @@ import com.ghostbusters.queuer.Models.LoginManager;
 
 
 public class LoginActivity extends ActionBarActivity implements LoginManagerCallback{
+    private SignInModel thisUser;
 
 
     @Override
@@ -115,20 +117,5 @@ public class LoginActivity extends ActionBarActivity implements LoginManagerCall
         }
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
 
-    public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(com.ghostbusters.queuer.R.layout.fragment_login, container, false);
-            return rootView;
-        }
-    }
-    */
 }
