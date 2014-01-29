@@ -141,12 +141,16 @@ public class ProjectActivity extends ActionBarActivity{
             final Button bPlum = (Button)layout.findViewById(R.id.btn_plum);
             final Button bTurq = (Button)layout.findViewById(R.id.btn_turquoise);
 
+            final View colorSwatch = (View)layout.findViewById(R.id.color_swatch);
+            colorSwatch.setBackgroundColor(getResources().getColor(R.color.White));
+
             final int[] projectColor = {project_color};
 
             bRed.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     projectColor[0] = getResources().getColor(R.color.Red);
+                    colorSwatch.setBackgroundColor(getResources().getColor(R.color.Red));
                 }
             });
 
@@ -154,6 +158,7 @@ public class ProjectActivity extends ActionBarActivity{
                 @Override
                 public void onClick(View view) {
                     projectColor[0] = getResources().getColor(R.color.Yellow);
+                    colorSwatch.setBackgroundColor(getResources().getColor(R.color.Yellow));
                 }
             });
 
@@ -161,6 +166,7 @@ public class ProjectActivity extends ActionBarActivity{
                 @Override
                 public void onClick(View view) {
                     projectColor[0] = getResources().getColor(R.color.Green);
+                    colorSwatch.setBackgroundColor(getResources().getColor(R.color.Green));
                 }
             });
 
@@ -168,6 +174,7 @@ public class ProjectActivity extends ActionBarActivity{
                 @Override
                 public void onClick(View view) {
                     projectColor[0] = getResources().getColor(R.color.Orange);
+                    colorSwatch.setBackgroundColor(getResources().getColor(R.color.Orange));
                 }
             });
 
@@ -175,6 +182,7 @@ public class ProjectActivity extends ActionBarActivity{
                 @Override
                 public void onClick(View view) {
                     projectColor[0] = getResources().getColor(R.color.Blue);
+                    colorSwatch.setBackgroundColor(getResources().getColor(R.color.Blue));
                 }
             });
 
@@ -182,6 +190,7 @@ public class ProjectActivity extends ActionBarActivity{
                 @Override
                 public void onClick(View view) {
                     projectColor[0] = getResources().getColor(R.color.Plum);
+                    colorSwatch.setBackgroundColor(getResources().getColor(R.color.Plum));
                 }
             });
 
@@ -189,6 +198,7 @@ public class ProjectActivity extends ActionBarActivity{
                 @Override
                 public void onClick(View view) {
                     projectColor[0] = getResources().getColor(R.color.Turquoise);
+                    colorSwatch.setBackgroundColor(getResources().getColor(R.color.Turquoise));
                 }
             });
 
@@ -206,6 +216,10 @@ public class ProjectActivity extends ActionBarActivity{
                                     projectDataSource.open();
                                     projectDataSource.updateProject(thisProject);
                                     projectDataSource.close();
+                                    LinearLayout layout = (LinearLayout)findViewById(R.id.project_screen);
+                                    layout.setBackgroundColor(thisProject.getColor());
+                                    ActionBar actionBar = getSupportActionBar();
+                                    actionBar.setTitle(thisProject.getTitle());
                                     //adapter.insert(project, 0);
                                     adapter.notifyDataSetChanged();
                                 }
