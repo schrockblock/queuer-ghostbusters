@@ -21,5 +21,6 @@
     <string name="no_projects">No projects!</string>
     <string name="no_tasks">No tasks!</string>
     <string name="action_edit_project">Edit project</string>
+    <string name="remember_me">Remember Me</string>
 
 </resources>

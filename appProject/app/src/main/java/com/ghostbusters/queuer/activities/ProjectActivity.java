@@ -1,4 +1,4 @@
-package com.ghostbusters.queuer.activites;
+package com.ghostbusters.queuer.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -44,7 +44,7 @@ public class ProjectActivity extends ActionBarActivity{
         projects_id = getIntent().getIntExtra("project_id", -1);
 
         thisProject = Project.getProject(this,projects_id);
-        project_name = thisProject.getTitle();
+        project_name = thisProject.getName();
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(project_name);
 
@@ -79,7 +79,7 @@ public class ProjectActivity extends ActionBarActivity{
                             public void undo() {
                                 adapter.insert(task, position);
                                 taskDataSource.open();
-                                taskDataSource.createTask(task.getName(), task.getLocalId(), task.getProject_id(), task.getPosition(), task.isFinished());
+                                taskDataSource.createTask(task.getName(), task.getLocalId(), task.getProject_id(), task.getOrder(), task.isFinished());
                                 taskDataSource.close();
                                 ((TextView) findViewById(R.id.tv_isEmptyTaskList)).setVisibility(View.GONE);
                             }
@@ -199,7 +199,7 @@ public class ProjectActivity extends ActionBarActivity{
                     .setPositiveButton("Ok",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    thisProject.setTitle(projectTitle.getText().toString());
+                                    thisProject.setName(projectTitle.getText().toString());
                                     thisProject.setColor(projectColor[0]);
                                     projectDataSource.open();
                                     projectDataSource.updateProject(thisProject);
@@ -207,7 +207,7 @@ public class ProjectActivity extends ActionBarActivity{
                                     LinearLayout layout = (LinearLayout)findViewById(R.id.project_screen);
                                     layout.setBackgroundColor(thisProject.getColor());
                                     ActionBar actionBar = getSupportActionBar();
-                                    actionBar.setTitle(thisProject.getTitle());
+                                    actionBar.setTitle(thisProject.getName());
                                     //adapter.insert(project, 0);
                                     adapter.notifyDataSetChanged();
                                 }

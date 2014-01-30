@@ -2,6 +2,7 @@ package com.ghostbusters.queuer.models;
 
 import android.content.Context;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import com.ghostbusters.queuer.database.ProjectDataSource;
@@ -11,19 +12,19 @@ import com.ghostbusters.queuer.database.ProjectDataSource;
  */
 public class Project {
     private int id;
-    private String title;
+    private String name;
     private int color;
     private int localId;
 
     public Project() {}
 
-    public Project(Context context, int id, String title) {
+    public Project(Context context, int id, String name) {
         this.id = id;
-        this.title = title;
+        this.name = name;
 
         ProjectDataSource projectDataSource = new ProjectDataSource(context);
         projectDataSource.open();
-        localId = projectDataSource.createProject(title,0,id,new Date(),new Date()).localId;
+        localId = projectDataSource.createProject(name,0,id,new Date(),new Date()).localId;
         projectDataSource.close();
     }
 
@@ -39,12 +40,12 @@ public class Project {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getColor() {

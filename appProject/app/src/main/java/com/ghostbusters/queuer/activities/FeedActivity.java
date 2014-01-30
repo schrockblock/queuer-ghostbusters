@@ -1,4 +1,4 @@
-package com.ghostbusters.queuer.activites;
+package com.ghostbusters.queuer.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -13,7 +13,7 @@ import android.widget.AdapterView;
 import com.ghostbusters.queuer.adapters.FeedAdapter;
 import com.ghostbusters.queuer.views.EnhancedListView;
 import com.ghostbusters.queuer.models.Project;
-import com.ghostbusters.queuer.models.SignInModel;
+import com.ghostbusters.queuer.database.ProjectDataSource;
 import com.ghostbusters.queuer.R;
 
 import java.util.ArrayList;
@@ -29,7 +29,8 @@ import com.ghostbusters.queuer.database.*;
 /**
  * Created by blakemackall on 1/15/14.
  */
-public class FeedActivity extends ActionBarActivity{
+public class
+        FeedActivity extends ActionBarActivity{
     private FeedAdapter adapter;
     ArrayList<Project> projects;
     ProjectDataSource projectDataSource;
@@ -38,19 +39,18 @@ public class FeedActivity extends ActionBarActivity{
     private String username;
     private String password;
     private String getFromSessionURL;
-    private SignInModel thisUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
 
-
         //local retrieving
         projectDataSource = new ProjectDataSource(this);
         projectDataSource.open();
         projects = projectDataSource.getAllProjects();
         projectDataSource.close();
+
 /*
         //server retrieving
         api_key = SignInModel.getInstance().getApi_key();
@@ -103,10 +103,7 @@ public class FeedActivity extends ActionBarActivity{
             }
         });
         ((QueuerApplication)FeedActivity.this.getApplicationContext()).getRequestQueue().add(request);
-
 */
-
-
 
         EnhancedListView listView = (EnhancedListView)findViewById(R.id.lv_projects);
         adapter = new FeedAdapter(this, projects);
@@ -121,8 +118,6 @@ public class FeedActivity extends ActionBarActivity{
                 projectDataSource.deleteProject(project);
                 projectDataSource.close();
                 if(adapter.isEmpty()) ((TextView)findViewById(R.id.tv_isEmptyProjectList)).setVisibility(View.VISIBLE);
-
-
                 return new EnhancedListView.Undoable() {
                     @Override
                     public void undo() {
@@ -133,32 +128,21 @@ public class FeedActivity extends ActionBarActivity{
             }
         });
 
-
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 Intent intent = new Intent(FeedActivity.this, ProjectActivity.class);
-
-                intent.putExtra("project_name", adapter.getItem(position).getTitle());
+                intent.putExtra("project_name", adapter.getItem(position).getName());
                 intent.putExtra("project_color", adapter.getItem(position).getColor());
-
                 intent.putExtra("project_id", (int)adapter.getItem(position).getLocalId());
-
                 startActivity(intent);
-
             }
         });
-
-
 
         listView.enableSwipeToDismiss();
         listView.enableRearranging();
         if(adapter.isEmpty()) ((TextView)findViewById(R.id.tv_isEmptyProjectList)).setVisibility(View.VISIBLE);
         else ((TextView)findViewById(R.id.tv_isEmptyProjectList)).setVisibility(View.GONE);
-
-
     }
 
 
@@ -169,12 +153,10 @@ public class FeedActivity extends ActionBarActivity{
     }
 
 
-
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-
         int id = item.getItemId();
         if (id == R.id.action_logout) {
             Intent i = new Intent(FeedActivity.this, LoginActivity.class);
@@ -185,9 +167,7 @@ public class FeedActivity extends ActionBarActivity{
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
             // set title
             alertDialogBuilder.setTitle("New Project");
-
             View layout = getLayoutInflater().inflate(R.layout.new_project, null);
-
             final EditText projectTitle = (EditText)layout.findViewById(R.id.projectName);
 
             final Button bRed = (Button)layout.findViewById(R.id.btn_red);

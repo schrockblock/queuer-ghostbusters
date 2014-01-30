@@ -19,6 +19,12 @@
         android:layout_height="wrap_content"
         android:text="@string/create_account_button"/>
 
+    <CheckBox
+        android:id="@+id/cb_remember"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/remember_me"/>
+
 
     <include layout="@layout/spinner_bar" />
 
