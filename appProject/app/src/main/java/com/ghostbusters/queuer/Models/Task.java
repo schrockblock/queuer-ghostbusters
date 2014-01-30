@@ -1,4 +1,4 @@
-package com.ghostbusters.queuer.Models;
+package com.ghostbusters.queuer.models;
 
 import android.content.Context;
 

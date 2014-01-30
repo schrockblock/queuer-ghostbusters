@@ -1,30 +1,18 @@
-package com.ghostbusters.queuer.Activites;
+package com.ghostbusters.queuer.activites;
 
-import com.ghostbusters.queuer.Models.LoginManagerCallback;
-import com.ghostbusters.queuer.Models.SignInModel;
+import com.ghostbusters.queuer.interfaces.LoginManagerCallback;
+import com.ghostbusters.queuer.models.SignInModel;
 import com.ghostbusters.queuer.R;
 
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
 import android.widget.Button;
 import android.widget.EditText;
-// I added this next one
 import android.content.Intent;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-//import com.demo.queuer.R;
-//import com.demo.queuer.managers.LoginManager;
-//import com.demo.queuer.managers.LoginManagerCallback;
-import com.ghostbusters.queuer.Models.LoginManager;
+import com.ghostbusters.queuer.models.LoginManager;
 
 
 public class LoginActivity extends ActionBarActivity implements LoginManagerCallback{
@@ -53,7 +41,6 @@ public class LoginActivity extends ActionBarActivity implements LoginManagerCall
                 manager.setCallback(LoginActivity.this, LoginActivity.this);
                 try {
                     manager.login(user.getText().toString(), pass.getText().toString());
-                    //go elsewhere to do finished request
                 } catch (Exception e) {
                     finishedRequest(false);
                     e.printStackTrace();
@@ -71,27 +58,6 @@ public class LoginActivity extends ActionBarActivity implements LoginManagerCall
 
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(com.ghostbusters.queuer.R.menu.login, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        switch (item.getItemId()) {
-            case com.ghostbusters.queuer.R.id.action_settings:
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     @Override
     public void startedRequest() {
         ((ProgressBar)findViewById(R.id.login_spinner)).setVisibility(View.VISIBLE);
@@ -99,7 +65,7 @@ public class LoginActivity extends ActionBarActivity implements LoginManagerCall
     }
 
     //maybe make public so that the loginmanager can update the error message? or maybe add a parameter to finishedRequest.
-    public void setMessage(String message){
+    private void setMessage(String message){
         ((TextView)findViewById(R.id.login_spinner_message)).setText(message);
     }
 

@@ -1,25 +1,18 @@
-package com.ghostbusters.queuer.Models;
+package com.ghostbusters.queuer.models;
 
-//to test now, comment out this block of imports and comment out the authenticate method's contents. also see QueuerApplication class
-
-import android.app.DownloadManager;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 
 
-import com.ghostbusters.queuer.Activites.LoginActivity;
 import com.ghostbusters.queuer.Constants;
 import com.ghostbusters.queuer.QueuerApplication;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.ghostbusters.queuer.interfaces.LoginManagerCallback;
 import com.google.gson.Gson;
-
-//import com.google.gson.GsonBuilder;
 
 
 import android.content.Context;
@@ -97,7 +90,6 @@ public class LoginManager {
             public void onErrorResponse(VolleyError error) {
                 try {
                     authenticatedUnsuccessfully();
-                    callback.setMessage("here");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

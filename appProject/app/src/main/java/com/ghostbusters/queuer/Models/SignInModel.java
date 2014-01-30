@@ -1,4 +1,4 @@
-package com.ghostbusters.queuer.Models;
+package com.ghostbusters.queuer.models;
 
 /**
  * Created by blakemackall on 1/16/14.

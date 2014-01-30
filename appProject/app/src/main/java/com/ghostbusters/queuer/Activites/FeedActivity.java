@@ -1,4 +1,4 @@
-package com.ghostbusters.queuer.Activites;
+package com.ghostbusters.queuer.activites;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -10,18 +10,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 
-
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.ghostbusters.queuer.Adapters.FeedAdapter;
-import com.ghostbusters.queuer.Constants;
-import com.ghostbusters.queuer.EnhancedListView.EnhancedListView;
-import com.ghostbusters.queuer.Models.Project;
-import com.ghostbusters.queuer.Models.SignInModel;
-import com.ghostbusters.queuer.Models.Task;
-import com.ghostbusters.queuer.QueuerApplication;
+import com.ghostbusters.queuer.adapters.FeedAdapter;
+import com.ghostbusters.queuer.views.EnhancedListView;
+import com.ghostbusters.queuer.models.Project;
+import com.ghostbusters.queuer.models.SignInModel;
 import com.ghostbusters.queuer.R;
 
 import java.util.ArrayList;
@@ -29,14 +21,9 @@ import java.util.Date;
 
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ghostbusters.queuer.database.*;
-import com.google.gson.Gson;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 
 /**
@@ -125,9 +112,6 @@ public class FeedActivity extends ActionBarActivity{
         adapter = new FeedAdapter(this, projects);
         listView.setAdapter(adapter);
 
-
-
-        //i dont understand this, ASK Professor!
         listView.setDismissCallback(new EnhancedListView.OnDismissCallback(){
             @Override
             public EnhancedListView.Undoable onDismiss(EnhancedListView listView, final int position) {
@@ -154,13 +138,9 @@ public class FeedActivity extends ActionBarActivity{
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                /*
-                ((TextView)findViewById(R.id.tv_isEmptyProjectList)).setVisibility(View.VISIBLE);
-                ((TextView)findViewById(R.id.tv_isEmptyProjectList)).setText(""+adapter.getItemId(position));
-                */
+
                 Intent intent = new Intent(FeedActivity.this, ProjectActivity.class);
 
-                //maybe comment these out?
                 intent.putExtra("project_name", adapter.getItem(position).getTitle());
                 intent.putExtra("project_color", adapter.getItem(position).getColor());
 
@@ -183,10 +163,8 @@ public class FeedActivity extends ActionBarActivity{
 
 
     public boolean onCreateOptionsMenu(Menu menu) {
-
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.feed, menu);
-        getMenuInflater().inflate(R.menu.logout, menu);
         return true;
     }
 
@@ -196,9 +174,6 @@ public class FeedActivity extends ActionBarActivity{
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-
-        //could be the problem
-        //final ProjectDataSource projectDataSource = new ProjectDataSource(this);
 
         int id = item.getItemId();
         if (id == R.id.action_logout) {
@@ -220,8 +195,8 @@ public class FeedActivity extends ActionBarActivity{
             final Button bYellow = (Button)layout.findViewById(R.id.btn_yellow);
             final Button bGreen = (Button)layout.findViewById(R.id.btn_green);
             final Button bOrange = (Button)layout.findViewById(R.id.btn_orange);
-            final Button bWhite = (Button)layout.findViewById(R.id.btn_plum);
-            final Button bTurq = (Button)layout.findViewById(R.id.btn_turquoise);
+            final Button bPlum = (Button)layout.findViewById(R.id.btn_plum);
+            final Button bWhite = (Button)layout.findViewById(R.id.btn_white);
 
             final int[] projectColor = {getResources().getColor(R.color.White)};
 
@@ -268,19 +243,19 @@ public class FeedActivity extends ActionBarActivity{
                 }
             });
 
+            bPlum.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    projectColor[0] = getResources().getColor(R.color.Plum);
+                    colorSwatch.setBackgroundColor(getResources().getColor(R.color.Plum));
+                }
+            });
+
             bWhite.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     projectColor[0] = getResources().getColor(R.color.White);
                     colorSwatch.setBackgroundColor(getResources().getColor(R.color.White));
-                }
-            });
-
-            bTurq.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    projectColor[0] = getResources().getColor(R.color.Turquoise);
-                    colorSwatch.setBackgroundColor(getResources().getColor(R.color.Turquoise));
                 }
             });
 
@@ -306,7 +281,6 @@ public class FeedActivity extends ActionBarActivity{
                         }
                     });
 
-            //alertDialogBuilder.set
             AlertDialog alertDialog = alertDialogBuilder.create();
 
 

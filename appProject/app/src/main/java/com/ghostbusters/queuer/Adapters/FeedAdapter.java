@@ -1,21 +1,14 @@
-package com.ghostbusters.queuer.Adapters;
+package com.ghostbusters.queuer.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListAdapter;
 import android.content.Context;
 import android.widget.TextView;
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ListAdapter;
-import android.widget.TextView;
 
-import com.ghostbusters.queuer.EnhancedListView.RearrangementListener;
-import com.ghostbusters.queuer.Models.Project;
+import com.ghostbusters.queuer.interfaces.RearrangementListener;
+import com.ghostbusters.queuer.models.Project;
 import com.ghostbusters.queuer.R;
 
 import java.util.ArrayList;

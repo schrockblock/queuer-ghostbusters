@@ -14,11 +14,4 @@
         android:hint="Task" >
         <requestFocus />
     </EditText>
-    <EditText
-        android:id="@+id/position"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:layout_below="@+id/task"
-        android:text="0"/>
 </RelativeLayout>
