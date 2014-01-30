@@ -34,6 +34,12 @@ dependencies {
     unitTestCompile 'junit:junit:4.10'
     unitTestCompile 'org.robolectric:robolectric:2.1.+'
     unitTestCompile 'com.google.android:android:4.0.1.2'
+    unitTestCompile 'com.android.support:support-v4:19.0.0'
+    unitTestCompile 'com.android.support:support-v4:13.0.0'
+    unitTestCompile 'com.android.support:appcompat-v7:19.0.0'
+    unitTestCompile files('src/main/res/libs/gson-2.2.4.jar')
+    unitTestCompile files('src/main/res/libs/annotations.jar')
+    unitTestCompile 'com.nineoldandroids:library:2.4.0'
 }
 
 task unitTest(type:Test, dependsOn: assemble) {

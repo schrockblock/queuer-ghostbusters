@@ -1,10 +1,12 @@
 package com.ghostbusters.queuer.models;
 
+import android.app.DownloadManager;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-
+import com.android.volley.toolbox.Volley;
 
 import com.ghostbusters.queuer.Constants;
 import com.ghostbusters.queuer.QueuerApplication;
@@ -16,7 +18,9 @@ import com.google.gson.Gson;
 
 
 import android.content.Context;
+import android.text.LoginFilter;
 
+import java.util.HashMap;
 
 
 /**
@@ -26,7 +30,18 @@ import android.content.Context;
 public class LoginManager {
     private LoginManagerCallback callback;
     private Context context;
+    private static LoginManager login_manager;
+    private String requestUrl;
 
+    private LoginManager(){
+    }
+
+    public static LoginManager getLogin(){
+        if( login_manager == null){
+            login_manager = new LoginManager();
+        }
+        return login_manager;
+    }
 
     public void setCallback(Context context, LoginManagerCallback callback) {
         this.callback = callback;
@@ -36,97 +51,60 @@ public class LoginManager {
     public void login(String username, String password) throws Exception{
         if (callback == null) throw new Exception("Must supply a LoginManagerCallback");
         callback.startedRequest();
+        requestUrl = Constants.QUEUER_SESSION_URL;
         authenticate(username, password);
     }
 
     public void createAccount(String username, String password) throws  Exception{
         if (callback == null) throw new Exception("Must supply a LoginManagerCallback");
         callback.startedRequest();
-        create(username, password);
+        requestUrl = Constants.QUEUER_CREATE_ACCOUNT_URL;
+        authenticate(username, password);
     }
 
-    private void create(String username, String password) {
-
+   /* private void create(String username, String password) {
         JSONObject createString;
-
         //maybe have to use a createAccountModel??
-        SignInModel.getInstance().setUsername(username);
-        SignInModel.getInstance().setPassword(password);
-        SignInModel model = SignInModel.getInstance();
-
+        SignInModel s_model = new SignInModel(username, password);
         try {
-            createString = new JSONObject(new Gson().toJson(model));
+            createString = new JSONObject(new Gson().toJson(s_model));
         } catch (JSONException e) {
             //maybe make this error handling more effective
             createString = null;
             e.printStackTrace();
         }
-
-
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, Constants.QUEUER_CREATE_ACCOUNT_URL,
-                createString, new Response.Listener<JSONObject>() {
+        createRequest = new JsonObjectRequest(Request.Method.POST, Constants.QUEUER_CREATE_ACCOUNT_URL,
+                createString, new Response.Listener<JSONObject>(), new Response.ErrorListener() {
             @Override
-            public void onResponse(JSONObject response) {
-                //if we have successful server time:
-                //handle response -- are there errors?
-                if (!response.has("errors")){
-                    Gson gson = new Gson();
-                    SignInModel thisUser = gson.fromJson(response.toString(),SignInModel.class);
-                    try {
-                        authenticatedSuccessfully();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    try {
-                        authenticatedUnsuccessfully();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                try {
-                    authenticatedUnsuccessfully();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        ((QueuerApplication)context.getApplicationContext()).getRequestQueue().add(request);
-
+            public HashMap<String, String> getParams()  throws com.android.volley.AuthFailureError{
+                HashMap<String, String> params = new HashMap<String, String>();
+                params.put(s_model.getUsername(), "username");
+                params.put(s_model.getPassword(), "password");
+                return params;
 
     }
+*/
 
     private void authenticate(String username, String password){
-
-        //RequestQueue queue = Volley.newRequestQueue(context);
+        RequestQueue queue = Volley.newRequestQueue(context.getApplicationContext());
         JSONObject loginString;
-        SignInModel.getInstance().setUsername(username);
-        SignInModel.getInstance().setPassword(password);
-        SignInModel model = SignInModel.getInstance();
+        SignInModel s_model = new SignInModel(username, password);
         //just a line for a test
-
         try {
-            loginString = new JSONObject(new Gson().toJson(model));
+            loginString = new JSONObject(new Gson().toJson(s_model));
         } catch (JSONException e) {
             //maybe make this error handling more effective
             loginString = null;
             e.printStackTrace();
         }
 
-
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, Constants.QUEUER_SESSION_URL,
-                loginString, new Response.Listener<JSONObject>() {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, requestUrl,
+                loginString, new Response.Listener<JSONObject>(){
             @Override
             public void onResponse(JSONObject response) {
                 //if we have successful server time:
                 //handle response -- are there errors?
                if (!response.has("errors")){
-                   Gson gson = new Gson();
-                   SignInModel thisUser = gson.fromJson(response.toString(),SignInModel.class);
                    try {
                        authenticatedSuccessfully();
                    } catch (Exception e) {
@@ -142,7 +120,9 @@ public class LoginManager {
                    }
                }
             }
-        }, new Response.ErrorListener() {
+        }
+        ,new Response.ErrorListener()
+        {
             @Override
             public void onErrorResponse(VolleyError error) {
                 try {
@@ -152,15 +132,18 @@ public class LoginManager {
                     e.printStackTrace();
                 }
             }
-        });
+        }
+        );
         ((QueuerApplication)context.getApplicationContext()).getRequestQueue().add(request);
-
     }
+
+
 
     private void authenticatedSuccessfully() throws Exception{
         if (callback == null) throw new Exception("Must supply a LoginManagerCallback");
         callback.finishedRequest(true);
     }
+
 
     private void authenticatedUnsuccessfully() throws Exception{
         if (callback == null) throw new Exception("Must supply a LoginManagerCallback");

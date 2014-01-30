@@ -1,23 +1,24 @@
-package com.ghostbusters.queuer.activites;
+package com.ghostbusters.queuer.activities;
 
 import com.ghostbusters.queuer.interfaces.LoginManagerCallback;
 import com.ghostbusters.queuer.models.SignInModel;
 import com.ghostbusters.queuer.R;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.content.Intent;
 import android.widget.ProgressBar;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import com.ghostbusters.queuer.models.LoginManager;
 
 
 public class LoginActivity extends ActionBarActivity implements LoginManagerCallback{
-    private SignInModel thisUser;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,7 @@ public class LoginActivity extends ActionBarActivity implements LoginManagerCall
         final ProgressBar progressbar = (ProgressBar)findViewById(com.ghostbusters.queuer.R.id.login_spinner);
         final EditText user = (EditText)findViewById(com.ghostbusters.queuer.R.id.et_username);
         final EditText pass = (EditText)findViewById(com.ghostbusters.queuer.R.id.et_password);
+        final CheckBox remember = (CheckBox)findViewById(R.id.cb_remember);
         final Button login = (Button)findViewById(com.ghostbusters.queuer.R.id.btn_login);
         final Button createAccount = (Button)findViewById(com.ghostbusters.queuer.R.id.btn_create_account);
 
@@ -36,17 +38,32 @@ public class LoginActivity extends ActionBarActivity implements LoginManagerCall
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(remember.isChecked()){
+                    SharedPreferences preferences = getSharedPreferences("login", Activity.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putBoolean("remember", true);
+                    editor.putString("username", user.getText().toString());
+                    editor.putString("password", pass.getText().toString());
+                    editor.commit();
+                }
 
-                LoginManager manager = new LoginManager();
-                manager.setCallback(LoginActivity.this, LoginActivity.this);
+                LoginManager l_manager = LoginManager.getLogin();
+                l_manager.setCallback(LoginActivity.this, LoginActivity.this);
                 try {
-                    manager.login(user.getText().toString(), pass.getText().toString());
+                    l_manager.login(user.getText().toString(), pass.getText().toString());
                 } catch (Exception e) {
                     finishedRequest(false);
                     e.printStackTrace();
                 }
             }
         });
+
+        SharedPreferences preferences = getSharedPreferences("login", MODE_PRIVATE);
+        if (preferences.getBoolean("remember", false)){
+            user.setText(preferences.getString("username", ""));
+            pass.setText(preferences.getString("password", ""));
+            remember.setChecked(true);
+        }
 
         createAccount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,7 +72,6 @@ public class LoginActivity extends ActionBarActivity implements LoginManagerCall
             startActivity(i);
             }
         });
-
     }
 
     @Override
@@ -76,12 +92,9 @@ public class LoginActivity extends ActionBarActivity implements LoginManagerCall
         EditText pass = (EditText)findViewById(com.ghostbusters.queuer.R.id.et_password);
         if(successful){
             setMessage("");
-            Intent i = new Intent(LoginActivity.this, FeedActivity.class);
-            startActivity(i);
+            startActivity(new Intent(LoginActivity.this, FeedActivity.class));
         } else {
             setMessage("Error Logging In");
         }
     }
-
-
 }
