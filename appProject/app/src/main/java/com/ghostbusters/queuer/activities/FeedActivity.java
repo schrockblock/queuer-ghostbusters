@@ -43,6 +43,14 @@ public class
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        boolean finish = getIntent().getBooleanExtra("finish",false);
+        if(finish){
+            startActivity(new Intent(FeedActivity.this, LoginActivity.class));
+            finish();
+            return;
+        }
+
         setContentView(R.layout.activity_feed);
 
         //local retrieving
@@ -160,7 +168,10 @@ public class
         int id = item.getItemId();
         if (id == R.id.action_logout) {
             Intent i = new Intent(FeedActivity.this, LoginActivity.class);
+            i.putExtra("finish",true);
+            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(i);
+            finish();
             return true;
         }
         if (id == R.id.action_add_project) {

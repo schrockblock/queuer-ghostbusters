@@ -62,29 +62,6 @@ public class LoginManager {
         authenticate(username, password);
     }
 
-   /* private void create(String username, String password) {
-        JSONObject createString;
-        //maybe have to use a createAccountModel??
-        SignInModel s_model = new SignInModel(username, password);
-        try {
-            createString = new JSONObject(new Gson().toJson(s_model));
-        } catch (JSONException e) {
-            //maybe make this error handling more effective
-            createString = null;
-            e.printStackTrace();
-        }
-        createRequest = new JsonObjectRequest(Request.Method.POST, Constants.QUEUER_CREATE_ACCOUNT_URL,
-                createString, new Response.Listener<JSONObject>(), new Response.ErrorListener() {
-            @Override
-            public HashMap<String, String> getParams()  throws com.android.volley.AuthFailureError{
-                HashMap<String, String> params = new HashMap<String, String>();
-                params.put(s_model.getUsername(), "username");
-                params.put(s_model.getPassword(), "password");
-                return params;
-
-    }
-*/
-
     private void authenticate(String username, String password){
         RequestQueue queue = Volley.newRequestQueue(context.getApplicationContext());
         JSONObject loginString;

@@ -1,5 +1,6 @@
 package com.ghostbusters.queuer.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
@@ -107,6 +108,15 @@ public class ProjectActivity extends ActionBarActivity{
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+
+        if (id == R.id.action_logout) {
+            Intent i = new Intent(ProjectActivity.this, FeedActivity.class);
+            i.putExtra("finish",true);
+            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(i);
+            finish();
+            return true;
+        }
 
         if (id == R.id.action_edit_project){
 
