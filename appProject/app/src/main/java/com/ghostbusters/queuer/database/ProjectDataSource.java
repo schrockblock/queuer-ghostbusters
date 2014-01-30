@@ -8,7 +8,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.ghostbusters.queuer.Models.Project;
+import com.ghostbusters.queuer.models.Project;
 
 import java.util.ArrayList;
 import java.util.Date;

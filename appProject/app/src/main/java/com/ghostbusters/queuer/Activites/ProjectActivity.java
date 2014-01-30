@@ -1,6 +1,5 @@
-package com.ghostbusters.queuer.Activites;
+package com.ghostbusters.queuer.activites;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
@@ -8,26 +7,21 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ghostbusters.queuer.R;
-import com.ghostbusters.queuer.Adapters.FeedAdapter;
-import com.ghostbusters.queuer.Adapters.ProjectAdapter;
-import com.ghostbusters.queuer.Models.Task;
-import com.ghostbusters.queuer.Models.Project;
-import com.ghostbusters.queuer.EnhancedListView.EnhancedListView;
+import com.ghostbusters.queuer.adapters.ProjectAdapter;
+import com.ghostbusters.queuer.models.Task;
+import com.ghostbusters.queuer.models.Project;
+import com.ghostbusters.queuer.views.EnhancedListView;
 import com.ghostbusters.queuer.database.ProjectDataSource;
 import com.ghostbusters.queuer.database.TaskDataSource;
-import com.ghostbusters.queuer.database.TaskOpenHelper;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by blakemackall on 1/17/14.
@@ -67,12 +61,9 @@ public class ProjectActivity extends ActionBarActivity{
         adapter = new ProjectAdapter(this, tasks);
         listView.setAdapter(adapter);
 
-        //listView.setBackgroundColor(12409);
-
         LinearLayout layout = (LinearLayout)findViewById(R.id.project_screen);
         layout.setBackgroundColor(project_color);
 
-                //also dont understand this, ASK
                 listView.setDismissCallback(new EnhancedListView.OnDismissCallback() {
                     @Override
                     public EnhancedListView.Undoable onDismiss(EnhancedListView listView, final int position) {
@@ -105,10 +96,8 @@ public class ProjectActivity extends ActionBarActivity{
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.project, menu);
-        getMenuInflater().inflate(R.menu.edit_project, menu);
         return true;
     }
 
@@ -119,7 +108,6 @@ public class ProjectActivity extends ActionBarActivity{
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //not sure if this button works
         if (id == R.id.action_edit_project){
 
             final ProjectDataSource projectDataSource = new ProjectDataSource(this);
@@ -139,7 +127,7 @@ public class ProjectActivity extends ActionBarActivity{
             final Button bGreen = (Button)layout.findViewById(R.id.btn_green);
             final Button bOrange = (Button)layout.findViewById(R.id.btn_orange);
             final Button bPlum = (Button)layout.findViewById(R.id.btn_plum);
-            final Button bTurq = (Button)layout.findViewById(R.id.btn_turquoise);
+            final Button bWhite = (Button)layout.findViewById(R.id.btn_white);
 
             final View colorSwatch = (View)layout.findViewById(R.id.color_swatch);
             colorSwatch.setBackgroundColor(getResources().getColor(R.color.White));
@@ -194,11 +182,11 @@ public class ProjectActivity extends ActionBarActivity{
                 }
             });
 
-            bTurq.setOnClickListener(new View.OnClickListener() {
+            bWhite.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    projectColor[0] = getResources().getColor(R.color.Turquoise);
-                    colorSwatch.setBackgroundColor(getResources().getColor(R.color.Turquoise));
+                    projectColor[0] = getResources().getColor(R.color.White);
+                    colorSwatch.setBackgroundColor(getResources().getColor(R.color.White));
                 }
             });
 

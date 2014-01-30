@@ -1,4 +1,4 @@
-package com.ghostbusters.queuer.EnhancedListView;
+package com.ghostbusters.queuer.interfaces;
 
 /**
  * Created by eschrock on 12/26/13.

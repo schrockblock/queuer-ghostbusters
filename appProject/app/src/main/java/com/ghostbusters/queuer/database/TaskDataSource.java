@@ -8,7 +8,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.ghostbusters.queuer.Models.Task;
+import com.ghostbusters.queuer.models.Task;
 
 import java.util.ArrayList;
 /**

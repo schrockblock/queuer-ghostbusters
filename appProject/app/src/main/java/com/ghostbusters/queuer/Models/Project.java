@@ -1,10 +1,9 @@
-package com.ghostbusters.queuer.Models;
+package com.ghostbusters.queuer.models;
 
 import android.content.Context;
 
 import java.util.Date;
 
-import com.ghostbusters.queuer.Activites.ProjectActivity;
 import com.ghostbusters.queuer.database.ProjectDataSource;
 
 /**

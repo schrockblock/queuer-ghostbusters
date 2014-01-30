@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ghostbusters.queuer.EnhancedListView;
+package com.ghostbusters.queuer.views;
 
 
 import com.ghostbusters.queuer.R;
@@ -47,6 +47,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.ghostbusters.queuer.interfaces.RearrangementListener;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.ObjectAnimator;
