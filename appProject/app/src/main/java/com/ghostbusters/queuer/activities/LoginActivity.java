@@ -46,7 +46,8 @@ public class LoginActivity extends ActionBarActivity implements LoginManagerCall
                     editor.putString("password", pass.getText().toString());
                     editor.commit();
                 }
-                LoginManager l_manager = LoginManager.getInstance();
+
+                LoginManager l_manager = LoginManager.getLogin();
                 l_manager.setCallback(LoginActivity.this, LoginActivity.this);
                 try {
                     l_manager.login(user.getText().toString(), pass.getText().toString());

@@ -30,17 +30,17 @@ import java.util.HashMap;
 public class LoginManager {
     private LoginManagerCallback callback;
     private Context context;
-
-    private static LoginManager l_manager = new LoginManager();
-    private RequestQueue queue;
-    private JsonObjectRequest createRequest;
+    private static LoginManager login_manager;
+    private String requestUrl;
 
     private LoginManager(){
-        queue = Volley.newRequestQueue(context.getApplicationContext());
     }
 
-    public static LoginManager getInstance(){
-        return l_manager;
+    public static LoginManager getLogin(){
+        if( login_manager == null){
+            login_manager = new LoginManager();
+        }
+        return login_manager;
     }
 
     public void setCallback(Context context, LoginManagerCallback callback) {
@@ -51,16 +51,18 @@ public class LoginManager {
     public void login(String username, String password) throws Exception{
         if (callback == null) throw new Exception("Must supply a LoginManagerCallback");
         callback.startedRequest();
+        requestUrl = Constants.QUEUER_SESSION_URL;
         authenticate(username, password);
     }
 
     public void createAccount(String username, String password) throws  Exception{
         if (callback == null) throw new Exception("Must supply a LoginManagerCallback");
         callback.startedRequest();
-        create(username, password);
+        requestUrl = Constants.QUEUER_CREATE_ACCOUNT_URL;
+        authenticate(username, password);
     }
 
-    private void create(String username, String password) {
+   /* private void create(String username, String password) {
         JSONObject createString;
         //maybe have to use a createAccountModel??
         SignInModel s_model = new SignInModel(username, password);
@@ -79,40 +81,12 @@ public class LoginManager {
                 params.put(s_model.getUsername(), "username");
                 params.put(s_model.getPassword(), "password");
                 return params;
-            }
-            @Override
-            public void onResponse(JSONObject response) {
-                //if we have successful server time:
-                //handle response -- are there errors?
-                if (!response.has("errors")){
-                    try {
-                        authenticatedSuccessfully();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    try {
-                        authenticatedUnsuccessfully();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                try {
-                    authenticatedUnsuccessfully();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        queue.add(createRequest);
-    }
 
+    }
+*/
 
     private void authenticate(String username, String password){
+        RequestQueue queue = Volley.newRequestQueue(context.getApplicationContext());
         JSONObject loginString;
         SignInModel s_model = new SignInModel(username, password);
         //just a line for a test
@@ -123,8 +97,9 @@ public class LoginManager {
             loginString = null;
             e.printStackTrace();
         }
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, Constants.QUEUER_SESSION_URL,
-                loginString, new Response.Listener<JSONObject>() {
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, requestUrl,
+                loginString, new Response.Listener<JSONObject>(){
             @Override
             public void onResponse(JSONObject response) {
                 //if we have successful server time:
@@ -145,7 +120,9 @@ public class LoginManager {
                    }
                }
             }
-        }, new Response.ErrorListener() {
+        }
+        ,new Response.ErrorListener()
+        {
             @Override
             public void onErrorResponse(VolleyError error) {
                 try {
@@ -155,8 +132,9 @@ public class LoginManager {
                     e.printStackTrace();
                 }
             }
-        });
-        queue.add(request);
+        }
+        );
+        ((QueuerApplication)context.getApplicationContext()).getRequestQueue().add(request);
     }
 
 

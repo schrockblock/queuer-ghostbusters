@@ -36,7 +36,7 @@ public class CreateAccountActivity extends ActionBarActivity implements LoginMan
         createAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoginManager l_manager = LoginManager.getInstance();
+                LoginManager l_manager = LoginManager.getLogin();
                 l_manager.setCallback(CreateAccountActivity.this, CreateAccountActivity.this);
                 try {
                     l_manager.createAccount(user.getText().toString(), pass.getText().toString());
